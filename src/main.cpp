@@ -7,7 +7,6 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 #include "vex.h"
-
 using namespace vex;
 
 // A global instance of vex::brain used for printing to the V5 brain screen
@@ -21,7 +20,7 @@ vex::motor spin3 = vex::motor(vex::PORT3);
 
 int main() {
 
-    spin3.setReverse(true);
+    spin3.setReversed(true);
 
     Brain.Screen.printAt( 10, 50, "Hello V5" );
    
