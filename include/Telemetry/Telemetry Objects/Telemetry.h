@@ -1,4 +1,11 @@
+template <typename T>
 class Telemetry {
 public:
-	virtual double getData() = 0;
+	inline const T getData() {
+		return data;
+	};
+
+	virtual void updateData() = 0;
+private:
+	T data;
 };

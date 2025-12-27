@@ -2,6 +2,6 @@
 
 MotorTemperature::MotorTemperature(vex::motor& motor) : motorRef(motor) {}
 
-double MotorTemperature::getData() {
-	return motorRef.temperature()
+double MotorTemperature::updateData() {
+	data = motorRef.temperature();
 }

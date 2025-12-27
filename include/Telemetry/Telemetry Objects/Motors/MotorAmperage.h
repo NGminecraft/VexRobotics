@@ -1,11 +1,11 @@
 #include "Telemetry/Telemetry Objects/Telemetry.h"
 #include "vex.h"
 
-class MotorAmperage : public Telemetry {
+class MotorAmperage : public Telemetry<double> {
 public:
 	MotorAmperage(vex::motor& motor);
 
-	double getData();
+	void updateData() override;
 private:
 	vex::motor& motorRef;
 };
