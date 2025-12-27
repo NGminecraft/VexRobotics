@@ -6,6 +6,6 @@ public:
 	};
 
 	virtual void updateData() = 0;
-private:
+protected:
 	T data;
 };
