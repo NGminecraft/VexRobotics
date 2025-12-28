@@ -3,7 +3,7 @@
 #include <type_traits>
 
 template <class T>
-concept Numeric = std::is_arithmetic_v<T>
+concept Numeric = std::is_arithmetic_v<T>;
 
 template <Numeric T, size_t N>
 class Vector {
