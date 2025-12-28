@@ -8,6 +8,10 @@ public:
 		return data;
 	};
 
+	inline const TelemetryDataPoint<T> getPreviousData() {
+		return previousData;
+	}
+
 	inline void update(unsigned long tick) {
 		previousData = data; // Store previous data point
 		double time = vex::timer::system(); // Time to reference for this data point
