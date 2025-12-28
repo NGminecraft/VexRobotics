@@ -9,7 +9,7 @@ public:
 	};
 
 	inline void update(unsigned long tick) {
-		previousData = data;
+		previousData = data; // Store previous data point
 		double time = vex::timer::system(); // Time to reference for this data point
 		data = TelemetryDataPoint<T>::create(
 			tick,
@@ -21,15 +21,16 @@ public:
 
 protected:
 	TelemetryDataPoint<T> data;
-	TelemetryDataPoint<T> previousData;
+	TelemetryDataPoint<T> previousData; // This value needs to be sampled on instantiation
 
-	virtual T newData() = 0;
+	virtual T newData() = 0; // virtual method to get a new data point
 
 };
 
 // Struct to hold a single data point for telemetry, as well as metadata about when it was recorded
 template <typename T>
 struct TelemetryDataPoint {
+
 	// Factory method to create the data point
 	static TelemetryDataPoint<T> create(unsigned long t, double time_since_last, double time, T val) {
 		TelemetryDataPoint<T> point;
