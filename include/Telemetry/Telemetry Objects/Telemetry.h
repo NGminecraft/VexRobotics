@@ -9,7 +9,7 @@ struct TelemetryDataPoint;
 template <typename T>
 class Telemetry {
 public:
-	inline const TelemetryDataPoint<T> getData() {
+	inline const TelemetryDataPoint<T> getData() const {
 		return data;
 	};
 
