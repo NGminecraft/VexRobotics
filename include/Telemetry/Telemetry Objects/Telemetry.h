@@ -4,11 +4,44 @@
 template <typename T>
 class Telemetry {
 public:
-	inline const T getData() {
+	inline const TelemetryDataPoint<T> getData() {
 		return data;
 	};
 
-	virtual void updateData() = 0;
+	inline void update(unsigned long tick) {
+		previousData = data;
+		double time = vex::timer::system(); // Time to reference for this data point
+		data = TelemetryDataPoint<T>::create(
+			tick,
+			time - previousData.time,
+			time,
+			newData()
+		);
+	};
+
 protected:
-	T data;
+	TelemetryDataPoint<T> data;
+	TelemetryDataPoint<T> previousData;
+
+	virtual T newData() = 0;
+
+};
+
+// Struct to hold a single data point for telemetry, as well as metadata about when it was recorded
+template <typename T>
+struct TelemetryDataPoint {
+	// Factory method to create the data point
+	static TelemetryDataPoint<T> create(unsigned long t, double time_since_last, double time, T val) {
+		TelemetryDataPoint<T> point;
+		point.tick = t;
+		point.timeSinceLastUpdate = time_since_last;
+		point.time = time;
+		point.value = val;
+		return point;
+	}
+
+	unsigned long tick;
+	double timeSinceLastUpdate;
+	double time;
+	T value;
 };
