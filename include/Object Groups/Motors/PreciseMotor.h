@@ -1,12 +1,15 @@
+#pragma once
 // A motor with a rotation sensor for precise control
 #include "vex.h"
+#include "Objects/MotorState.h"
+
 
 struct PreciseMotor {
 public:
-	PreciseMotor(vex::motor& m, vex::rotation& r);
-	vex::motor& getMotor();
+	PreciseMotor(MotorState& m, vex::rotation& r);
+	MotorState& getMotor();
 	vex::rotation& getRotationSensor();
 protected:
-	vex::motor& motor;
+	MotorState& motor;
 	vex::rotation& rotationSensor;
 };
