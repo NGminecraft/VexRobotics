@@ -5,7 +5,7 @@ class MotorTemperature : public Telemetry<double> {
 public:
 	MotorTemperature(vex::motor& motor);
 
-	void updateData() override;
+	double newData() override;
 private:
 	vex::motor& motorRef;
 };

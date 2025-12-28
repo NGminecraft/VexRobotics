@@ -5,7 +5,7 @@ class RotationAngle : public Telemetry<double> {
 public:
 	RotationAngle(vex::rotation& sensor);
 
-	void updateData() override;
+	double newData() override;
 private:
 	vex::rotation& sensorRef;
 };
