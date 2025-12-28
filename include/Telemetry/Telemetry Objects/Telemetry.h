@@ -1,3 +1,11 @@
+#pragma once
+#include "vex.h"
+
+// Forward declaration
+template <typename T>
+struct TelemetryDataPoint;
+
+// Base class for any telemetry objects
 template <typename T>
 class Telemetry {
 public:
