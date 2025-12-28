@@ -2,14 +2,15 @@
 // A motor with a rotation sensor for precise control
 #include "vex.h"
 #include "Objects/MotorState.h"
+#include "Objects/RotationState.h"
 
 
 struct PreciseMotor {
 public:
-	PreciseMotor(MotorState& m, vex::rotation& r);
+	PreciseMotor(MotorState& m, RotationState& r);
 	MotorState& getMotor();
-	vex::rotation& getRotationSensor();
+	RotationState& getRotationState();
 protected:
 	MotorState& motor;
-	vex::rotation& rotationSensor;
+	RotationState& rotationSensor;
 };
