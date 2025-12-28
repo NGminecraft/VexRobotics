@@ -1,7 +1,7 @@
 #include "Objects/MotorState.h"
 
 MotorState::MotorState(vex::motor& m) :
-	motor(m),
-	current(motor),
-	temperature(motor) 
+	StateObject<vex::motor>(m),
+	current(object),
+	temperature(object) 
 {}

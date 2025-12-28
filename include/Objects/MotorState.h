@@ -3,8 +3,9 @@
 // The point is to keep measurements consistent between calls and to have a single unified class representing the State of The Motor
 #include "vex.h"
 #include "Telemetry/Telemetry Objects/Motors/MotorTelemetryHeaders.h"
+#include "Objects/StateObject.h"
 
-class MotorState {
+class MotorState : public StateObject<vex::motor> {
 public:
 
 	MotorState(vex::motor& m);
@@ -18,7 +19,6 @@ public:
 	}
 
 protected:
-	vex::motor& motor;
 	MotorAmperage current;
 	MotorTemperature temperature;
 };
