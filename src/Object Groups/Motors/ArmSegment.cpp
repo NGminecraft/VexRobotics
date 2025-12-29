@@ -6,7 +6,16 @@ ArmSegment::ArmSegment(MotorState& m, RotationState& r, double len)
 
 ArmSegment::ArmSegment(const PreciseMotor& motor, double len) : motor(motor), length(len) {}
 
-Vector2D ArmSegment::getEndPosition() {
+const Vector2D<double> ArmSegment::getEndPosition() {
 	double angleRad = motor.getRotationState().getAngleRadians();
-	return Vector2D(length * cos(angleRad), length * sin(angleRad));
+	if (angleRad == cachedAngleRad) {
+		return cachedEndPos;
+	}
+	else
+	{
+		Vector2D<double> endPos = Vector2D(length * cos(angleRad), length * sin(angleRad));
+		cachedAngleRad = angleRad;
+		cachedEndPos = endPos;
+		return endPos;
+	}
 }

@@ -10,8 +10,12 @@ public:
 	ArmSegment(MotorState& m, RotationState& r, double len);
 	ArmSegment(const PreciseMotor& motor, double len);
 
-	const Vector2D getEndPosition();
+	const Vector2D<double> getEndPosition();
 protected:
 	PreciseMotor motor;
 	double length; // Length of the arm segment in inches
+
+	double cachedAngleRad = -5;
+	Vector2D<double> cachedEndPos = Vector2D<double>( 0.0, 0.0, 0.0 );
+
 };
