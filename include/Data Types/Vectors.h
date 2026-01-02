@@ -1,12 +1,11 @@
 #pragma once
-#include "Data Types/GeneralTypes.h"
-
 #include <concepts>
 #include <type_traits>
 #include <initializer_list>
 #include <array>
 
-template <Numeric T, size_t N, bool Owner>
+template <typename T, size_t N, bool Owner>
+	requires std::is_arithmetic_v<T>
 class VectorBase {
 public:
 	VectorBase() : data{} {}
@@ -98,18 +97,23 @@ private:
 	std::array<std::conditional_t<Owner, T, T*>, N> data;
 };
 
-template <Numeric T, size_t N>
+template <typename T, size_t N>
+	requires std::is_arithmetic_v<T>
 using Vector = VectorBase<T, N, true>;
 
-template <Numeric T, size_t N>
+template <typename T, size_t N>
+	requires std::is_arithmetic_v<T>
 using OwningVector = VectorBase<T, N, true>;
 
-template <Numeric T, size_t N>
+template <typename T, size_t N>
+	requires std::is_arithmetic_v<T>
 using PointerVector = VectorBase<T, N, false>;
 
 
-template <Numeric T>
+template <typename T>
+	requires std::is_arithmetic_v<T>
 using Vector2D = Vector<T, 2>;
 
-template <Numeric T>
+template <typename T>
+	requires std::is_arithmetic_v<T>
 using Vector3D = Vector<T, 3>;

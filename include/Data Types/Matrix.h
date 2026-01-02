@@ -1,9 +1,10 @@
 #pragma once
-#include "Data Types/GeneralTypes.h"
 #include "Data Types/Vectors.h"
 #include <array>
+#include <type_traits>
 
-template <Numeric T, size_t ROWS, size_t COLS>
+template <typename T, size_t ROWS, size_t COLS>
+requires std::is_arithmetic_v<T>
 class Matrix {
 public:
 	// CONSTRUCTORS
