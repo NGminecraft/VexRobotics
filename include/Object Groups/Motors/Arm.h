@@ -8,8 +8,6 @@ public:
 
 	void AddSegment(ArmSegment& segment);
 
-
-
 private:
 	std::vector<ArmSegment&> segments;
 };

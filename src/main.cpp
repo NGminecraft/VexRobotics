@@ -7,6 +7,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 #include "vex.h"
+#include "Data Types/Rotations.h"
 using namespace vex;
 
 // A global instance of vex::brain used for printing to the V5 brain screen
@@ -23,6 +24,7 @@ int main() {
     spin3.setReversed(true);
 
     Brain.Screen.printAt( 10, 50, "Hello V5" );
+    Rotation rot = Rotation::about(Rotation::Axis::XAxis, 3.14 / 4);
    
     while(1) {
         // Allow other tasks to run
