@@ -4,7 +4,7 @@
 #include <type_traits>
 
 template <typename T, size_t ROWS, size_t COLS>
-requires std::is_arithmetic_v<T>
+requires std::is_arithmetic<T>::value
 class Matrix {
 public:
 	// CONSTRUCTORS
@@ -44,15 +44,6 @@ public:
 	// Index the array (const)
 	const T& operator()(size_t r, size_t c) const {
 		return data[r * COLS + c];
-	}
-
-	void print() const {
-		for (size_t i = 0; i < ROWS; i++) {
-			for (size_t j = 0; j < COLS; j++) {
-				std::cout << operator()(i, j) << " ";
-			}
-			std::cout << std::endl;
-		}
 	}
 
 	// Gets a row as a non-owning vector
