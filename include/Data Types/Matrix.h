@@ -56,6 +56,32 @@ public:
 		return VectorBase<T, ROWS, false>::StridedAccess(&data[column], COLS);
 	}
 
+	// Sets a column from a vector
+	void setColumn(size_t column, const VectorBase<T, ROWS, true>& vec) {
+		for (size_t i = 0; i < ROWS; i++) {
+			operator()(i, column) = vec[i];
+		}
+	}
+	
+	void setColumn(size_t column, const VectorBase<T, ROWS, false>& vec) {
+		for (size_t i = 0; i < ROWS; i++) {
+			operator()(i, column) = vec[i];
+		}
+	}
+
+	// Sets a row from a vector
+	void setRow(size_t row, const VectorBase<T, COLS, true>& vec) {
+		for (size_t i = 0; i < COLS; i++) {
+			operator()(row, i) = vec[i];
+		}
+	}
+
+	void setRow(size_t row, const VectorBase<T, COLS, false>& vec) {
+		for (size_t i = 0; i < COLS; i++) {
+			operator()(row, i) = vec[i];
+		}
+	}
+
 	// Logic
 
 	// Matrix multiplication, the column size (ROWS) in the first matrix need to equal the row size (COLS) in the other matrix
