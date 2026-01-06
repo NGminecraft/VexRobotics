@@ -4,10 +4,16 @@
 
 class Arm {
 public:
-	Arm(ArmSegment& Arms, size_t length);
+	Arm() = default;
 
-	void AddSegment(ArmSegment& segment);
+	Arm(std::vector<ArmSegment> arm);
+
+	void AddSegment(ArmSegment segment);
+
+	void VelocityTowardsPosition(const Vector3D<double>& position);
 
 private:
-	std::vector<ArmSegment&> segments;
+	std::vector<ArmSegment> segments;
+
+	constexpr static double epsilon = 0.1;
 };
