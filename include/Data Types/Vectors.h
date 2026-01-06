@@ -72,6 +72,23 @@ public:
 		return *this;
 	}
 
+	// Cross Prodcut (3D only)
+	VectorBase<T, 3, true> cross(VectorBase<T, 3, true> vec) requires (N == 3) {
+		VectorBase<T, 3, true> ret;
+		ret[0] = operator[](2) * vec[3] - operator[](3) * vec[2];
+		ret[1] = operator[](3) * vec[1] - operator[](1) * vec[3];
+		ret[2] = operator[](1) * vec[2] - operator[](2) * vec[1];
+		return ret;
+	}
+
+	VectorBase<T, 3, true> cross(VectorBase<T, 3, false> vec) requires (N == 3) {
+		VectorBase<T, 3, true> ret;
+		ret[0] = operator[](2) * vec[3] - operator[](3) * vec[2];
+		ret[1] = operator[](3) * vec[1] - operator[](1) * vec[3];
+		ret[2] = operator[](1) * vec[2] - operator[](2) * vec[1];
+		return ret;
+	}
+
 	template <typename Type, size_t Len, bool O>
 	VectorBase<T, N, true> operator*(VectorBase<Type, Len, O> vec) requires (Len == N && std::is_arithmetic<Type>::value) {
 		VectorBase<T, N, true> ret;
