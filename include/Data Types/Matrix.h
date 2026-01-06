@@ -93,12 +93,24 @@ public:
 			for (size_t j = 0; j < OTHER_COLUMNS; j++) { // Each column of result
 				T sum = 0;
 				for (size_t k = 0; k < COLS; k++) {      // Dot product
-					sum += (*this)(i, k) * mat(k, j);
+					sum += operator()(i, k) * mat(k, j);
 				}
 				result(i, j) = sum;
 			}
 		}
 
+		return result;
+	}
+
+	VectorBase<T, ROWS, true> operator*(const VectorBase<T, ROWS, true>& vec) {
+		VectorBase<T, ROWS, true> result;
+		for (size_t i = 0; i < ROWS; i++) {
+			T sum = 0;
+			for (size_t j = 0; j < COLS; j++) {
+				sum += operator()(i, j) * vec[j];
+			}
+			result[i] = sum;
+		}
 		return result;
 	}
 
