@@ -9,7 +9,9 @@ public:
         ZAxis
     };
 
-    Rotation(std::initializer_list<double> lst) : Matrix<double, 3, 3>(lst) {
+    const Vector2D<double> axis() const { return axis; }
+
+    Rotation(std::initializer_list<double> lst, Vector3D<double> axis) : Matrix<double, 3, 3>(lst), axis(axis) {
     }
 
     // FACTORIES
@@ -53,4 +55,6 @@ public:
                 return Rotation::ZAxis(rotation);
     }
     }
+private:
+    Vector3D<double> axis;
 };
