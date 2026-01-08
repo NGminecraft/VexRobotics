@@ -8,3 +8,5 @@ all:
 
 clean:
 	$(MAKE) -C .. clean
+
+LDLIBS = -lm
