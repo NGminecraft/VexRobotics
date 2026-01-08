@@ -23,7 +23,7 @@ INC_FLAGS = -I$(MOCK_INC) -I$(PROJECT_INC)
 SRC = $(wildcard ../src/*.cpp ../src/*/*.cpp)
 
 # Output folder
-BUILD = build
+BUILD = ../build
 OBJ = $(patsubst ../src/%.cpp,$(BUILD)/%.o,$(SRC))
 BIN = $(BUILD)/test.bin
 
@@ -36,7 +36,7 @@ $(BIN): $(OBJ)
 	$(CXX) $(CXX_FLAGS) $(OBJ) -o $@
 
 # Compile
-$(BUILD)/%.o: src/%.cpp
+$(BUILD)/%.o: ../src/%.cpp
 	@mkdir -p $(BUILD)
 	$(CXX) $(CXX_FLAGS) $(INC_FLAGS) -c $< -o $@
 
