@@ -2,7 +2,8 @@
 // This class is for combining a motor and its state as stored in telemetry
 // The point is to keep measurements consistent between calls and to have a single unified class representing the State of The Motor
 #include "vex.h"
-#include "Telemetry/Telemetry Objects/Motors/MotorTelemetryHeaders.h"
+#include "../Telemetry/Telemetry Objects/Motors/MotorAmperage.h"
+#include "../Telemetry/Telemetry Objects/Motors/MotorTemperature.h"
 #include "Objects/StateObject.h"
 
 class MotorState : public StateObject<vex::motor> {
