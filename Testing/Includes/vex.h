@@ -8,7 +8,7 @@
 #ifndef TESTING_INCLUDES_VEX_H
 #define TESTING_INCLUDES_VEX_H
 
-#include <cstdint>
+#include <cstdint.h>
 //#include <functional>   // removed to avoid compatibility issues with older toolchains
 #include <iostream>
 #include <mutex>
