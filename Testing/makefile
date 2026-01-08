@@ -4,7 +4,7 @@
 .PHONY: all clean
 
 all:
-	$(MAKE) -C .. INC_F=Testing/Includes
+	$(MAKE) -C .. INC_F="Testing/Includes include"
 
 clean:
 	$(MAKE) -C .. clean
