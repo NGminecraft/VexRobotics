@@ -20,11 +20,11 @@ CXX_FLAGS = -std=gnu++2a -O2 -Wall -Werror
 INC_FLAGS = -I$(MOCK_INC) -I$(PROJECT_INC)
 
 # Source files
-SRC = $(wildcard src/*.cpp)
+SRC = $(wildcard ../src/*.cpp ../src/*/*.cpp)
 
 # Output folder
 BUILD = build
-OBJ = $(patsubst src/%.cpp,$(BUILD)/%.o,$(SRC))
+OBJ = $(patsubst ../src/%.cpp,$(BUILD)/%.o,$(SRC))
 BIN = $(BUILD)/test.bin
 
 # Default target
