@@ -1,10 +1,10 @@
 .PHONY: all clean
 
 # Folder with mock headers
-MOCK_INC = Testing/Includes
+MOCK_INC = ./Includes
 
 # Project headers
-PROJECT_INC = include
+PROJECT_INC = ../include
 
 # Compiler (force GCC 11 if installed)
 CXX = g++-11
