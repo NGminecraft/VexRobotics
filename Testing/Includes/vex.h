@@ -3,21 +3,21 @@
 // This is a lightweight, header-only mock: it implements minimal behavior
 // and is intended only for compilation and simple runtime tests.
 //
-// Compatible with gnu++11.
+// Compatible with gnu++11 / gcc 4.9.3.
 
 #ifndef TESTING_INCLUDES_VEX_H
 #define TESTING_INCLUDES_VEX_H
 
-#include <stdint.h>
-#include <functional>
+#include <cstdint>
+//#include <functional>   // removed to avoid compatibility issues with older toolchains
 #include <iostream>
 #include <mutex>
 #include <string>
 #include <thread>
 #include <chrono>
-#include <atomic>
 #include <vector>
 #include <cmath>
+#include <cstdlib>
 
 namespace vex {
 
@@ -67,8 +67,9 @@ public:
     }
     std::cerr << "[mock motor] port " << m_port << " spinFor " << deg << "deg\n";
     if (wait) {
-      auto delay = std::chrono::milliseconds(static_cast<int>(std::abs(deg) / 360.0 * 50));
-      std::this_thread::sleep_for(delay);
+      int delay_ms = static_cast<int>(std::abs(deg) / 360.0 * 50);
+      if (delay_ms < 0) delay_ms = -delay_ms;
+      std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
     }
   }
 
@@ -80,8 +81,9 @@ public:
     }
     std::cerr << "[mock motor] port " << m_port << " rotateFor " << deg << "deg\n";
     if (wait) {
-      auto delay = std::chrono::milliseconds(static_cast<int>(std::abs(deg) / 360.0 * 50));
-      std::this_thread::sleep_for(delay);
+      int delay_ms = static_cast<int>(std::abs(deg) / 360.0 * 50);
+      if (delay_ms < 0) delay_ms = -delay_ms;
+      std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
     }
   }
 
@@ -116,7 +118,9 @@ class motor_group {
 public:
   motor_group() {}
   motor_group(std::initializer_list<motor*> motors) {
-    for (std::initializer_list<motor*>::iterator it = motors.begin(); it != motors.end(); ++it) m_motors.push_back(*it);
+    for (std::initializer_list<motor*>::iterator it = motors.begin(); it != motors.end(); ++it) {
+      m_motors.push_back(*it);
+    }
   }
 
   void spin(directionType dir, double vel, velocityUnits units = velocityUnits::pct) {
@@ -183,9 +187,9 @@ public:
   uint64_t timer(msec ms = msec(0)) {
     (void)ms;
     using namespace std::chrono;
-    static steady_clock::time_point start = steady_clock::now();
-    steady_clock::time_point now = steady_clock::now();
-    return static_cast<uint64_t>(duration_cast<milliseconds>(now - start).count());
+    static std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+    return static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count());
   }
 };
 
@@ -194,8 +198,8 @@ class competition {
 public:
   competition() : _auton(NULL), _driver(NULL) {}
 
-  void setAutonomous(std::function<void()> f) { _auton = f; }
-  void setDriverControl(std::function<void()> f) { _driver = f; }
+  void setAutonomous(void (*f)()) { _auton = f; }
+  void setDriverControl(void (*f)()) { _driver = f; }
 
   void run() {
     if (_auton) {
@@ -209,8 +213,8 @@ public:
   }
 
 private:
-  std::function<void()> _auton;
-  std::function<void()> _driver;
+  void (*_auton)();
+  void (*_driver)();
 };
 
 // A couple of utility mocks (sensors)
