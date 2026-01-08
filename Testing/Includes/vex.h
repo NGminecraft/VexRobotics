@@ -3,9 +3,10 @@
 // This is a lightweight, header-only mock: it implements minimal behavior
 // and is intended only for compilation and simple runtime tests.
 //
-// Requires C++17 (for inline variables).
+// Compatible with gnu++11.
 
-#pragma once
+#ifndef TESTING_INCLUDES_VEX_H
+#define TESTING_INCLUDES_VEX_H
 
 #include <cstdint>
 #include <functional>
@@ -15,6 +16,8 @@
 #include <thread>
 #include <chrono>
 #include <atomic>
+#include <vector>
+#include <cmath>
 
 namespace vex {
 
@@ -27,7 +30,7 @@ enum class rotationUnits { deg, rev };
 enum class distanceUnits { mm, in };
 
 // Simple time utilities (milliseconds)
-using msec = std::chrono::milliseconds;
+typedef std::chrono::milliseconds msec;
 
 // Minimal motor mock
 class motor {
@@ -41,8 +44,6 @@ public:
     std::lock_guard<std::mutex> lk(m_mutex);
     m_spinning = true;
     m_velocity = (dir == directionType::fwd ? 1.0 : -1.0) * velocity;
-    // For mock: we won't start a background simulation thread. Rotation updates must be
-    // driven explicitly by rotateFor / rotateTo / user test code if needed.
     std::cerr << "[mock motor] port " << m_port << " spin "
               << (dir == directionType::fwd ? "fwd" : "rev")
               << " vel=" << velocity << (units==velocityUnits::pct ? "%":"rpm") << "\n";
@@ -57,24 +58,20 @@ public:
               << (bt==brakeType::coast ? "coast" : bt==brakeType::brake ? "brake":"hold") << ")\n";
   }
 
-  // Rotate for a given angle or revolutions; if wait is true this will simulate time passing
   void spinFor(directionType dir, double value, rotationUnits units, velocityUnits vel_units = velocityUnits::pct, bool wait = true) {
     double deg = (units == rotationUnits::deg) ? value : value * 360.0;
     if (dir == directionType::rev) deg = -deg;
     {
       std::lock_guard<std::mutex> lk(m_mutex);
-      // naive instantaneous: update position
       m_rotation_deg += deg;
     }
     std::cerr << "[mock motor] port " << m_port << " spinFor " << deg << "deg\n";
     if (wait) {
-      // simulate a short delay proportional to amount moved (very coarse)
       auto delay = std::chrono::milliseconds(static_cast<int>(std::abs(deg) / 360.0 * 50));
       std::this_thread::sleep_for(delay);
     }
   }
 
-  // rotateFor without explicit direction
   void rotateFor(double value, rotationUnits units, bool wait = true) {
     double deg = (units == rotationUnits::deg) ? value : value * 360.0;
     {
@@ -88,14 +85,12 @@ public:
     }
   }
 
-  // Reset encoder/rotation
   void resetRotation() {
     std::lock_guard<std::mutex> lk(m_mutex);
     m_rotation_deg = 0.0;
     std::cerr << "[mock motor] port " << m_port << " resetRotation\n";
   }
 
-  // Read (mock) rotation
   double rotation(rotationUnits units = rotationUnits::deg) {
     std::lock_guard<std::mutex> lk(m_mutex);
     if (units == rotationUnits::deg) return m_rotation_deg;
@@ -119,16 +114,16 @@ private:
 // Simple motor_group mock (wraps up to a few motors)
 class motor_group {
 public:
-  motor_group() = default;
+  motor_group() {}
   motor_group(std::initializer_list<motor*> motors) {
-    for (auto m : motors) m_motors.push_back(m);
+    for (std::initializer_list<motor*>::iterator it = motors.begin(); it != motors.end(); ++it) m_motors.push_back(*it);
   }
 
   void spin(directionType dir, double vel, velocityUnits units = velocityUnits::pct) {
-    for (auto m : m_motors) if (m) m->spin(dir, vel, units);
+    for (size_t i = 0; i < m_motors.size(); ++i) if (m_motors[i]) m_motors[i]->spin(dir, vel, units);
   }
   void stop(brakeType bt = brakeType::coast) {
-    for (auto m : m_motors) if (m) m->stop(bt);
+    for (size_t i = 0; i < m_motors.size(); ++i) if (m_motors[i]) m_motors[i]->stop(bt);
   }
 private:
   std::vector<motor*> m_motors;
@@ -141,10 +136,10 @@ public:
   class button {
   public:
     button() : m_pressed(false) {}
-    bool pressed() const { return m_pressed.load(); }
-    void setPressed(bool p) { m_pressed.store(p); }
+    bool pressed() const { return m_pressed; }
+    void setPressed(bool p) { m_pressed = p; }
   private:
-    std::atomic<bool> m_pressed;
+    bool m_pressed;
   };
 
   controller() {}
@@ -159,7 +154,6 @@ public:
   class screen {
   public:
     void print(int row, int col, const char* fmt) {
-      // very small formatted output for testing
       std::cerr << "[mock controller screen] (" << row << "," << col << ") " << fmt << "\n";
     }
     void clear() { std::cerr << "[mock controller screen] clear\n"; }
@@ -189,22 +183,20 @@ public:
   uint64_t timer(msec ms = msec(0)) {
     (void)ms;
     using namespace std::chrono;
-    static auto start = steady_clock::now();
-    auto now = steady_clock::now();
+    static steady_clock::time_point start = steady_clock::now();
+    steady_clock::time_point now = steady_clock::now();
     return static_cast<uint64_t>(duration_cast<milliseconds>(now - start).count());
   }
 };
 
 // Competition mock: you can register callbacks; run() will call them in sequence.
-// For tests, run() will call the previously-registered autonomous and driver control callbacks.
 class competition {
 public:
-  competition() : _auton(nullptr), _driver(nullptr) {}
+  competition() : _auton(NULL), _driver(NULL) {}
 
   void setAutonomous(std::function<void()> f) { _auton = f; }
   void setDriverControl(std::function<void()> f) { _driver = f; }
 
-  // Call this to simulate the competition starting
   void run() {
     if (_auton) {
       std::cerr << "[mock competition] running autonomous\n";
@@ -225,10 +217,10 @@ private:
 class limit {
 public:
   limit() : _pressed(false) {}
-  bool pressed() const { return _pressed.load(); }
-  void setPressed(bool v) { _pressed.store(v); }
+  bool pressed() const { return _pressed; }
+  void setPressed(bool v) { _pressed = v; }
 private:
-  std::atomic<bool> _pressed;
+  bool _pressed;
 };
 
 class inertial {
@@ -240,15 +232,14 @@ private:
   double _angle_deg;
 };
 
-// Simple delay helper
-inline void task::sleep(int ms) {} // (not a full task implementation)
-
-// Inline global objects to mimic typical VEX programs
-inline vex::brain Brain;
-inline vex::controller Controller;
-inline vex::competition Competition;
+// Declare globals; definitions are provided in a source file compatible with C++11.
+extern vex::brain Brain;
+extern vex::controller Controller;
+extern vex::competition Competition;
 
 // Convenience typedefs and small helpers that appear in many VEX programs
-using V5 = vex; // legacy alias
+typedef vex V5; // legacy alias
 
 } // namespace vex
+
+#endif // TESTING_INCLUDES_VEX_H
