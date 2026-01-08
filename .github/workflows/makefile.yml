@@ -21,7 +21,7 @@ jobs:
       run: Testing/configure
     
     - name: Install dependencies
-      run: make
+      run: make -C Testing
 
     - name: Run check
       run: make check
