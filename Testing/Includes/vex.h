@@ -8,7 +8,7 @@
 #ifndef TESTING_INCLUDES_VEX_H
 #define TESTING_INCLUDES_VEX_H
 
-#include <stdint>
+#include <stdint.h>
 #include <functional>
 #include <iostream>
 #include <mutex>
