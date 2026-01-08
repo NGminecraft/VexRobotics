@@ -1,5 +1,7 @@
 #pragma once
 #include "Data Types/Matrix.h"
+#include <initializer_list>
+#include "Vectors.h"
 
 class Rotation : public Matrix<double, 3, 3> {
 public:

@@ -1,7 +1,8 @@
 #pragma once
 #include "Data Types/Vectors.h"
-#include <array>
 #include <type_traits>
+#include <cstddef>
+#include <initializer_list>
 
 template <typename T, size_t ROWS, size_t COLS>
 requires std::is_arithmetic<T>::value

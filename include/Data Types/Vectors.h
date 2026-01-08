@@ -2,6 +2,7 @@
 #include <type_traits>
 #include <initializer_list>
 #include <array>
+#include <cstddef>
 
 template <typename T, size_t N, bool Owner>
 	requires std::is_arithmetic<T>::value
