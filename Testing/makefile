@@ -1,14 +1,44 @@
-# Testing makefile: invoke root makefile but override include directory
-# This reuses the same vex build rules while using Testing/Includes for headers
-
 .PHONY: all clean
 
-CXX_FLAGS := $(filter-out -I$(VEX_SDK_PATH)/$(PLATFORM)/gcc/include/c++/4.9.3%, $(CXX_FLAGS))
+# Folder with mock headers
+MOCK_INC = Testing/Includes
 
-all:
-	$(MAKE) -C .. INC_F="Testing/Includes include"
+# Project headers
+PROJECT_INC = include
+
+# Compiler (force GCC 11 if installed)
+CXX = g++-11
+CC  = gcc-11
+
+# Standard C++ version for CI/testing
+CXX_FLAGS = -std=gnu++2a -O2 -Wall -Werror
+
+# Include order:
+# 1. Mock headers (stubs)
+# 2. System headers (auto-found by compiler)
+# 3. Project headers
+INC_FLAGS = -I$(MOCK_INC) -I$(PROJECT_INC)
+
+# Source files
+SRC = $(wildcard src/*.cpp)
+
+# Output folder
+BUILD = build
+OBJ = $(patsubst src/%.cpp,$(BUILD)/%.o,$(SRC))
+BIN = $(BUILD)/test.bin
+
+# Default target
+all: $(BIN)
+
+# Link
+$(BIN): $(OBJ)
+	@mkdir -p $(BUILD)
+	$(CXX) $(CXX_FLAGS) $(OBJ) -o $@
+
+# Compile
+$(BUILD)/%.o: src/%.cpp
+	@mkdir -p $(BUILD)
+	$(CXX) $(CXX_FLAGS) $(INC_FLAGS) -c $< -o $@
 
 clean:
-	$(MAKE) -C .. clean
-
-LDLIBS = -lm
+	rm -rf $(BUILD)
