@@ -12,7 +12,7 @@ CC  = clang
 
 CFLAGS_V7 = -march=armv7-a -mfpu=neon -mfloat-abi=softfp
 # Standard C++ version for CI/testing
-CXX_FLAGS = -std=gnu++11 -O2 -Wall -Werror
+CXX_FLAGS = -std=gnu++2a -O2 -Wall -Werror
 
 # Include order:
 # 1. Mock headers (stubs)
