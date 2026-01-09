@@ -114,6 +114,11 @@ public:
 		return result;
 	}
 
+	Matrix<T, ROWS, COLS> pseudoInverse() {
+		auto t = this->transpose();
+		(t*(*this)).transpose()*t;
+	}
+
 	constexpr size_t rows() { return ROWS; };
 	constexpr size_t columns() { return COLS; };
 private:
