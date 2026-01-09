@@ -14,6 +14,8 @@ public:
 
 	const Rotation& getRotationAxis() const { return rotationAxis; }
 
+	const double getLength() const { return length; }
+
 protected:
 	PreciseMotor motor;
 	Rotation rotationAxis;

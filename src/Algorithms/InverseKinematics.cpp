@@ -20,8 +20,8 @@ Vector<double, Joints> InverseKinematics(std::array<ArmSegment, Joints>& segment
 	jointPositions[0] = new Vector3d<double>(0, 0, 0);
 	// Caching loop
 	for (size_t i = 1; i < Joints; i++) {
-		jointPositions[i] = new Vector3D
 		rotationMatrices[i] = new Matrix<double, 3, 3> rotationMatrices[i-1] * segments[i].getRotationAxis();
+		jointPositions[i] = new Vector3D<double> rotationMatrices[i] * segments[i].getRotationAxis().axis() * segments[i].getLength();
 	}
 
 	// MATH
