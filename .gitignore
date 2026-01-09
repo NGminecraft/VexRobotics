@@ -4,7 +4,7 @@
 /build
 /x64
 /VexRobotics
-/.vscode
+.vscode/
 compile_commands.json
 /VexRobotics.slnx
 /VexRobotics.vcxproj
