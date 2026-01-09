@@ -32,7 +32,13 @@ Vector<double, Joints> InverseKinematics(std::array<ArmSegment, Joints>& segment
 	// MATH
 	Matrix<double, 3, Joints> Jacobian;
 	for (size_t i = 0; i < Joints; i++) {
-		
+		// Sets the column in the Jacobian matrix
+		Jacobian.setColumn(i,
+			segments[i].getRotationAxis() // Get the rotation axis for the joint
+			.crossProduct(
+				jointPositions[Joints] - jointPositions[i] // Get the vector from the joint to the end effector
+			)
+		);
 	}
 
 	// Cleanup
