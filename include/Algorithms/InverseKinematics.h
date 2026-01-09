@@ -1,7 +1,7 @@
 #pragma once
-#include "Data Types/Matrix.h"
 #include "Data Types/Vectors.h"
 #include "Object Groups/Motors/ArmSegment.h"
+#include <array>
 #include <cstddef>
 
 template <size_t Joints>
