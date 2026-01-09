@@ -7,5 +7,7 @@
 /.vscode
 compile_commands.json
 /VexRobotics.slnx
+/*.sln
+/*.filters
 /VexRobotics.vcxproj
 /VexRobotics.vcxproj.user

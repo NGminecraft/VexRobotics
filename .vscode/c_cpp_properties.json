@@ -17,9 +17,10 @@
         {
             "name": "Win32",
             "includePath": [
-                "${vex_sdkIncludes}"
+                "${vex_sdkIncludes}",
+                "C:\\Users\\minec\\AppData\\Roaming\\Code\\User\\globalStorage\\vexrobotics.vexcode\\sdk\\cpp\\V5\\V5_20240802_15_00_00\\vexv5\\include"
             ],
-            "compilerPath": "${vex_compilerPath}",
+            "compilerPath": "clang++",
             "cStandard": "gnu99",
             "cppStandard": "gnu++11",
             "intelliSenseMode": "windows-clang-x86",
