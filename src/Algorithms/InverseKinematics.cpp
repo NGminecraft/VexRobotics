@@ -13,8 +13,8 @@ Vector<double, Joints> InverseKinematics(std::array<ArmSegment, Joints>& segment
 	// [ ] Rotation matrices for each joint
 	// [ ] Joint locations
 	
-	std::array<Matrix<double, 3, 3> *, Joints> rotationMatrices;
-	std::array<Vector3D<double>*, Joints + 1> jointPositions;
+	std::array<Matrix<double, 3, 3>, Joints> rotationMatrices;
+	std::array<Vector3D<double>, Joints + 1> jointPositions;
 
 	rotationMatrices[0] = &orientation;
 	jointPositions[0] = new Vector3d<double>(0, 0, 0);
