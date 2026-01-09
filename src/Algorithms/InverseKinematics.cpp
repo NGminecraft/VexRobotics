@@ -20,11 +20,20 @@ Vector<double, Joints> InverseKinematics(std::array<ArmSegment, Joints>& segment
 	jointPositions[0] = new Vector3D<double>(0, 0, 0);
 	// Caching loop
 	for (size_t i = 1; i < Joints; i++) {
-		rotationMatrices[i] = rotationMatrices[i-1] * segments[i].getRotationAxis();
-		jointPositions[i] = rotationMatrices[i] * (segments[i].getRotationAxis().axis() * segments[i].getLength());
+		// Add this joints rotation to the net rotation matrix
+		rotationMatrices[i] = rotationMatrices[i - 1] * segments[i].getRotationAxis();
+		// Use the state of the previous joint to estimate where this joint lies
+		jointPositions[i] = jointPositions[i - 1] + (rotationMatrices[i - 1] * (segments[i - 1].getRotationAxis().axis() * segments[i - 1].getLength()));
 	}
 
+	// Add the last joint position (the end effector)
+	jointPositions[Joints] = jointPositions[Joints - 1] + (rotationMatrices[i - 1] * (segments[i - 1].getRotationAxis().axis() * segments[i - 1].getLength()));
+
 	// MATH
+	Matrix<double, 3, Joints> Jacobian;
+	for (size_t i = 0; i < Joints; i++) {
+		
+	}
 
 	// Cleanup
 	for (size_t i = 1; i < Joints; i++) {
