@@ -43,7 +43,6 @@ Vector<double, Joints> InverseKinematics(std::array<ArmSegment, Joints>& segment
 
 	// Cleanup
 	for (size_t i = 1; i < Joints; i++) {
-		delete rotationMatrices[i];
-		delete jointPositions[i];
+		
 	}
 }
