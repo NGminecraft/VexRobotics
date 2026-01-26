@@ -102,6 +102,7 @@ public:
 		return result;
 	}
 
+	// Matrix-Vector multiplication
 	VectorBase<T, ROWS, true> operator*(const VectorBase<T, ROWS, true>& vec) {
 		VectorBase<T, ROWS, true> result;
 		for (size_t i = 0; i < ROWS; i++) {
@@ -112,11 +113,6 @@ public:
 			result[i] = sum;
 		}
 		return result;
-	}
-
-	Matrix<T, ROWS, COLS> pseudoInverse() {
-		auto t = this->transpose();
-		(t*(*this)).transpose()*t;
 	}
 
 	constexpr size_t rows() { return ROWS; };
