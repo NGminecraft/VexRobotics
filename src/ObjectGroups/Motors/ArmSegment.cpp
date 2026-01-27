@@ -1,5 +1,5 @@
 #include "ObjectGroups/Motors/ArmSegment.h"
-#include <Data Types/Rotations.h>
+#include <DataTypes/Rotations.h>
 #include <ObjectGroups/Motors/PreciseMotor.h>
 #include <Objects/MotorState.h>
 #include <Objects/RotationState.h>
