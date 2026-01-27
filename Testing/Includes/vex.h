@@ -154,7 +154,7 @@ inline const color color::cyan = color(0x00FFFF);
 
 class motor {
 private:
-    int32_t port_num;
+    [[maybe_unused]] int32_t port_num;
     bool reversed;
     double position_value;
     double velocity_value;
