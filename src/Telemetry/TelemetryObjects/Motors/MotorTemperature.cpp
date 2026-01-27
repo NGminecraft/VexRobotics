@@ -1,4 +1,4 @@
-#include "Telemetry/Telemetry Objects/Motors/MotorTemperature.h"
+#include "Telemetry/TelemetryObjects/Motors/MotorTemperature.h"
 
 MotorTemperature::MotorTemperature(vex::motor& motor) : motorRef(motor) {
 	previousData = TelemetryDataPoint<double>::create(

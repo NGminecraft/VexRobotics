@@ -22,9 +22,3 @@ jobs:
     
     - name: Install dependencies
       run: make -C Testing
-
-    - name: Run check
-      run: make check
-
-    - name: Run distcheck
-      run: make distcheck

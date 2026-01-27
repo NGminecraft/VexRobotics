@@ -1,4 +1,4 @@
-#include "Telemetry/Telemetry Objects/Motors/MotorAmperage.h"
+#include "Telemetry/TelemetryObjects/Motors/MotorAmperage.h"
 
 MotorAmperage::MotorAmperage(vex::motor& motor) : motorRef(motor) {
 	// Initial value for the previous data point

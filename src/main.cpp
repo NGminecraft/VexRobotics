@@ -7,7 +7,8 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 #include "vex.h"
-#include "Data Types/Rotations.h"
+#include "DataTypes/Rotations.h"
+#include "ObjectGroups/Motors/Arm.h"
 using namespace vex;
 
 // A global instance of vex::brain used for printing to the V5 brain screen
@@ -20,12 +21,7 @@ vex::motor spin2 = vex::motor(vex::PORT2);
 vex::motor spin3 = vex::motor(vex::PORT3);
 
 int main() {
-
-    spin3.setReversed(true);
-
     Brain.Screen.printAt( 10, 50, "Hello V5" );
-    Rotation rot = Rotation::about(Rotation::Axis::XAxis, 3.14 / 4);
-   
     while(1) {
         // Allow other tasks to run
         this_thread::sleep_for(10);

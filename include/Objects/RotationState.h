@@ -1,7 +1,7 @@
 #pragma once
 #include "Objects/StateObject.h"
 #include <cmath>
-#include <Telemetry/Telemetry Objects/Rotation Sensors/RotationAngle.h>
+#include <Telemetry/TelemetryObjects/RotationSensors/RotationAngle.h>
 #include <vex_rotation.h>
 
 class RotationState : StateObject<vex::rotation> {

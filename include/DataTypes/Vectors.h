@@ -73,6 +73,14 @@ public:
 		return *this;
 	}
 
+	VectorBase<T, N, true> operator*(const double item) {
+		VectorBase<T, N, true> vector;
+		for (size_t i = 0; i < N; i++) {
+			vector[i] = operator[](i) * item;
+		}
+		return vector;
+	}
+
 	// Cross Prodcut (3D only)
 	VectorBase<T, 3, true> cross(VectorBase<T, 3, true> vec) requires (N == 3) {
 		VectorBase<T, 3, true> ret;
