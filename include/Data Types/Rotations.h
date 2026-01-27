@@ -1,5 +1,6 @@
 #pragma once
 #include "Data Types/Matrix.h"
+#include <cmath>
 #include <initializer_list>
 #include "Vectors.h"
 
@@ -18,8 +19,8 @@ public:
 
     // FACTORIES
     static Rotation ZAxis(double rotation) {
-        double c = cos(rotation);
-        double s = sin(rotation);
+        double c = std::cos(rotation);
+        double s = std::sin(rotation);
         return Rotation({
             c, -s, 0,
             s,  c, 0,
@@ -30,8 +31,8 @@ public:
     }
 
     static Rotation YAxis(double rotation) {
-        double c = cos(rotation);
-        double s = sin(rotation);
+        double c = std::cos(rotation);
+        double s = std::sin(rotation);
         return Rotation({
             c, 0, s,
             0, 1, 0,
@@ -42,8 +43,8 @@ public:
     }
 
     static Rotation XAxis(double rotation) {
-        double c = cos(rotation);
-        double s = sin(rotation);
+        double c = std::cos(rotation);
+        double s = std::sin(rotation);
         return Rotation({
             1, 0, 0,
             0, c, -s,
