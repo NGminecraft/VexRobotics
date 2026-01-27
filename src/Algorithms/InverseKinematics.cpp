@@ -1,9 +1,9 @@
 #include "Algorithms/InverseKinematics.h"
-#include "Data Types/Rotations.h"
+#include "DataTypes/Rotations.h"
 #include <array>
 #include <cstddef>
-#include <Data Types/Vectors.h>
-#include <Object Groups/Motors/ArmSegment.h>
+#include <DataTypes/Vectors.h>
+#include <ObjectGroups/Motors/ArmSegment.h>
 
 // Performs inverse kinematics on an array of joint segments
 template<size_t Joints>
