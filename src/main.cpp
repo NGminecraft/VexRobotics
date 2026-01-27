@@ -7,7 +7,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 #include "vex.h"
-#include "Data Types/Rotations.h"
+#include "DataTypes/Rotations.h"
 #include "Object Groups/Motors/Arm.h"
 using namespace vex;
 
