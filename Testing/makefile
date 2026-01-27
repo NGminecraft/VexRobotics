@@ -38,7 +38,7 @@ $(BIN): $(OBJ)
 
 # Compile
 $(BUILD)/%.o: ../src/%.cpp
-	@mkdir -p $(BUILD)
+	@mkdir -p $(dir $@)
 	$(CXX) $(CXX_FLAGS) $(INC_FLAGS) -c $< -o $@
 
 clean:
