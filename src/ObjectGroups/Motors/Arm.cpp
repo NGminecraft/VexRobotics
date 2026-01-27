@@ -1,5 +1,5 @@
-#include "Object Groups/Motors/Arm.h"
-#include "Data Types/Matrix.h"
+#include "ObjectGroups/Motors/Arm.h"
+#include "DataTypes/Matrix.h"
 
 Arm::Arm(std::vector<ArmSegment> arm) : segments(arm) {
 }
