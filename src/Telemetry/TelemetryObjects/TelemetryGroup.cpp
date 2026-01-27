@@ -1,4 +1,4 @@
-#include "Telemetry/Telemetry Objects/TelemetryGroup.h"
+#include "Telemetry/TelemetryObjects/TelemetryGroup.h"
 
 TelemetryGroup::TelemetryGroup() {
 }
