@@ -1,5 +1,5 @@
 #pragma once
-#include "Data Types/Matrix.h"
+#include "DataTypes/Matrix.h"
 #include <cmath>
 #include <initializer_list>
 #include "Vectors.h"

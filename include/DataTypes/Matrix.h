@@ -1,5 +1,5 @@
 #pragma once
-#include "Data Types/Vectors.h"
+#include "DataTypes/Vectors.h"
 #include <type_traits>
 #include <cstddef>
 #include <initializer_list>
