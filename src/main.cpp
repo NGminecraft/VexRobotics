@@ -8,7 +8,7 @@
 /*----------------------------------------------------------------------------*/
 #include "vex.h"
 #include "DataTypes/Rotations.h"
-#include "Object Groups/Motors/Arm.h"
+#include "ObjectGroups/Motors/Arm.h"
 using namespace vex;
 
 // A global instance of vex::brain used for printing to the V5 brain screen
