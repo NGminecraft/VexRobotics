@@ -13,6 +13,32 @@
 namespace vex {
 
 // ============================================================================
+// Port Constants
+// ============================================================================
+
+constexpr int32_t PORT1 = 1;
+constexpr int32_t PORT2 = 2;
+constexpr int32_t PORT3 = 3;
+constexpr int32_t PORT4 = 4;
+constexpr int32_t PORT5 = 5;
+constexpr int32_t PORT6 = 6;
+constexpr int32_t PORT7 = 7;
+constexpr int32_t PORT8 = 8;
+constexpr int32_t PORT9 = 9;
+constexpr int32_t PORT10 = 10;
+constexpr int32_t PORT11 = 11;
+constexpr int32_t PORT12 = 12;
+constexpr int32_t PORT13 = 13;
+constexpr int32_t PORT14 = 14;
+constexpr int32_t PORT15 = 15;
+constexpr int32_t PORT16 = 16;
+constexpr int32_t PORT17 = 17;
+constexpr int32_t PORT18 = 18;
+constexpr int32_t PORT19 = 19;
+constexpr int32_t PORT20 = 20;
+constexpr int32_t PORT21 = 21;
+
+// ============================================================================
 // Enumerations
 // ============================================================================
 
@@ -142,6 +168,9 @@ public:
     motor(int32_t port, gearSetting gears, bool reverse = false)
         : port_num(port), reversed(reverse), position_value(0),
           velocity_value(0), brake_mode(brakeType::coast) {}
+    
+    void setReversed(bool value) { reversed = value; }
+    bool isReversed() const { return reversed; }
     
     void spin(directionType dir) { velocity_value = (dir == directionType::fwd) ? 100 : -100; }
     void spin(directionType dir, double vel, velocityUnits units) { 
@@ -684,5 +713,14 @@ public:
 };
 
 } // namespace vex
+
+// ============================================================================
+// this_thread namespace for sleep functionality
+// ============================================================================
+
+namespace this_thread {
+    inline void sleep_for(int32_t milliseconds) {}
+    inline void sleep_until(int32_t time) {}
+}
 
 #endif // VEX_H
