@@ -275,12 +275,12 @@ public:
     
     class axis {
     private:
-        int32_t value;
+        int32_t axis_value;
     public:
-        axis() : value(0) {}
-        int32_t position() const { return value; }
-        int32_t value() const { return value; }
-        void setValue(int32_t v) { value = v; }
+        axis() : axis_value(0) {}
+        int32_t position() const { return axis_value; }
+        int32_t value() const { return axis_value; }
+        void setValue(int32_t v) { axis_value = v; }
     };
     
     class button {
@@ -635,6 +635,23 @@ inline void sleep(double time) {}
 
 inline int32_t abs(int32_t value) { return value < 0 ? -value : value; }
 inline double fabs(double value) { return value < 0.0 ? -value : value; }
+
+// ============================================================================
+// Global Timer Class
+// ============================================================================
+
+class timer {
+private:
+    uint32_t start_time;
+public:
+    timer() : start_time(0) {}
+    double time() const { return 0.0; }
+    double time(timeUnits units) const { return 0.0; }
+    void reset() { start_time = 0; }
+    void clear() { start_time = 0; }
+    static double system() { return 0.0; }
+    static double systemHighResolution() { return 0.0; }
+};
 
 // ============================================================================
 // Thread Class
