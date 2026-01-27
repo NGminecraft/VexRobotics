@@ -1,6 +1,6 @@
 #pragma once
 #include "vex.h"
-#include "Telemetry/Telemetry Objects/Telemetry.h"
+#include "Telemetry/TelemetryObjects/Telemetry.h"
 
 class RotationAngle : public Telemetry<double> {
 public:

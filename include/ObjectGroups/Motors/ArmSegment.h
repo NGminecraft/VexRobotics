@@ -1,8 +1,8 @@
 #pragma once
-#include "Object Groups/Motors/PreciseMotor.h"
+#include "ObjectGroups/Motors/PreciseMotor.h"
 #include "Objects/MotorState.h"
 #include "Objects/RotationState.h"
-#include "Data Types/Rotations.h"
+#include "DataTypes/Rotations.h"
 
 class ArmSegment {
 public:

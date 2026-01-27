@@ -1,2 +1,2 @@
 #pragma once
-#include "Telemetry/Telemetry Objects/Rotation Sensors/RotationAngle.h"
+#include "Telemetry/TelemetryObjects/Rotation Sensors/RotationAngle.h"

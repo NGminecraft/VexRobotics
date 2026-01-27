@@ -1,5 +1,5 @@
 #pragma once
-#include "Telemetry/Telemetry Objects/Telemetry.h"
+#include "Telemetry/TelemetryObjects/Telemetry.h"
 #include "vex.h"
 
 class MotorAmperage : public Telemetry<double> {

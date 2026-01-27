@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Telemetry/Telemetry Objects/Telemetry.h"
+#include "Telemetry/TelemetryObjects/Telemetry.h"
 
 class TelemetryGroup {
 public:

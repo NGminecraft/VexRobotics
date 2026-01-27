@@ -1,5 +1,5 @@
 #pragma once
-#include "Object Groups/Motors/ArmSegment.h"
+#include "ObjectGroups/Motors/ArmSegment.h"
 #include <cstddef>
 #include <vector>
 
