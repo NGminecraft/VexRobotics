@@ -25,7 +25,6 @@ int main() {
     spin3.setReversed(true);
 
     Brain.Screen.printAt( 10, 50, "Hello V5" );
-   
     while(1) {
         // Allow other tasks to run
         this_thread::sleep_for(10);
