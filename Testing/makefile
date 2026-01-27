@@ -7,7 +7,7 @@ MOCK_INC = ./Includes
 PROJECT_INC = ../include
 
 # Compiler (force GCC 11 if installed)
-CXX = clang
+CXX = clang++
 CC  = clang
 
 CFLAGS_V7 = -march=armv7-a -mfpu=neon -mfloat-abi=softfp
