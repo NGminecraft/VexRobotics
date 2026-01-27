@@ -2,6 +2,6 @@
 
 MotorState::MotorState(vex::motor& m) :
 	StateObject<vex::motor>(m),
-	current(object),
-	temperature(object) 
+	current(m),
+	temperature(m) 
 {}
