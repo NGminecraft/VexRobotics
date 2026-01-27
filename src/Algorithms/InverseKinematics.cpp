@@ -27,7 +27,7 @@ Vector<double, Joints> InverseKinematics(std::array<ArmSegment, Joints>& segment
 	}
 
 	// Add the last joint position (the end effector)
-	jointPositions[Joints] = jointPositions[Joints - 1] + (rotationMatrices[i - 1] * (segments[i - 1].getRotationAxis().axis() * segments[i - 1].getLength()));
+	jointPositions[Joints] = jointPositions[Joints - 1] + (rotationMatrices[Joints - 1] * (segments[Joints - 1].getRotationAxis().axis() * segments[Joints - 1].getLength()));
 
 	// MATH
 	Matrix<double, 3, Joints> Jacobian;
@@ -40,6 +40,9 @@ Vector<double, Joints> InverseKinematics(std::array<ArmSegment, Joints>& segment
 			)
 		);
 	}
+
+	// Pseudo-inverse of the Jacobian
+	Matrix<double, Joints, 3> JacobianPseudoInverse = Jacobian.pseudoInverse();
 
 	// Cleanup
 	for (size_t i = 1; i < Joints; i++) {
