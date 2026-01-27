@@ -21,8 +21,6 @@ vex::motor spin2 = vex::motor(vex::PORT2);
 vex::motor spin3 = vex::motor(vex::PORT3);
 
 int main() {
-    spin3.setReversed(true);
-
     Brain.Screen.printAt( 10, 50, "Hello V5" );
     while(1) {
         // Allow other tasks to run
