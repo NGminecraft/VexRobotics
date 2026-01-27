@@ -5,6 +5,6 @@
 #include <Objects/RotationState.h>
 
 ArmSegment::ArmSegment(MotorState& m, RotationState& r, Rotation axis, double len)
-	: motor(m, r), length(len), rotationAxis(axis) {}
+	: motor(m, r), rotationAxis(axis), length(len) {}
 
-ArmSegment::ArmSegment(const PreciseMotor& motor, Rotation axis, double len) : motor(motor), length(len), rotationAxis(axis) {}
+ArmSegment::ArmSegment(const PreciseMotor& motor, Rotation axis, double len) : motor(motor), rotationAxis(axis), length(len) {}
