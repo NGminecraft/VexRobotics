@@ -21,7 +21,7 @@ CXX_FLAGS = -std=gnu++2a -O2 -Wall -Werror
 INC_FLAGS = -I$(MOCK_INC) -I$(PROJECT_INC)
 
 # Source files
-SRC = $(wildcard ../src/*.cpp ../src/*/*.cpp)
+SRC = $(shell find ../src -name '*.cpp')
 
 # Output folder
 BUILD = ../build
