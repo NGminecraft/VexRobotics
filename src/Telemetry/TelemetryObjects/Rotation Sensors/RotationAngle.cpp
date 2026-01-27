@@ -1,4 +1,4 @@
-#include "Telemetry/Telemetry Objects/Rotation Sensors/RotationAngle.h"
+#include "Telemetry/TelemetryObjects/RotationSensors/RotationAngle.h"
 
 RotationAngle::RotationAngle(vex::rotation& sensor) : sensorRef(sensor) {
 	previousData = TelemetryDataPoint<double>::create(
