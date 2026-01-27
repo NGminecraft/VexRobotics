@@ -203,6 +203,5 @@ private:
 		}
 
 		return inv;
-
 	}
 };
