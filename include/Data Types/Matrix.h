@@ -142,13 +142,13 @@ private:
 				sum += L(i, j) * y[j];
 			}
 
-			y[i] = (b[i] - sum) / L(i, j);
+			y[i] = (b[i] - sum) / L(i, i);
 		}
 
 		return y;
 	}
 
-	Vector<T, COLS> backwardSubsitution(cons Matrix<T, ROWS, COLS>& L, const Vector<T, ROWS>& b) {
+	Vector<T, COLS> backwardSubsitution(const Matrix<T, ROWS, COLS>& L, const Vector<T, ROWS>& b) {
 		Vector<T, COLS> x;
 
 		for (size_t i = COLS - 1; i >= 0; i--) {
@@ -158,7 +158,7 @@ private:
 				sum += L(j, i) * x[j];
 			}
 
-			x[i] = (y[i] - sum) / L(i, i);
+			x[i] = (b[i] - sum) / L(i, i);
 		}
 		return x;
 	}
