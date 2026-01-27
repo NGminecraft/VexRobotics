@@ -4,10 +4,11 @@
 /build
 /x64
 /VexRobotics
-/.vscode
+/.vscode/*
 compile_commands.json
 /VexRobotics.slnx
 /*.sln
 /*.filters
 /VexRobotics.vcxproj
 /VexRobotics.vcxproj.user
+/.vscode/c_cpp_properties.json

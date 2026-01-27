@@ -7,7 +7,7 @@
 
 // Performs inverse kinematics on an array of joint segments
 template<size_t Joints>
-Vector<double, Joints> InverseKinematics(std::array<ArmSegment, Joints>& segments, Matrix<double, 3, 3>& orientation)
+Vector<double, Joints> InverseKinematics(std::array<ArmSegment, Joints>& segments, Matrix<double, 3, 3>& orientation, Vector3D<double>& targetVelocity)
 {
 	// THINGS I NEED TO CACHE:
 	// [ ] Rotation matrices for each joint
@@ -27,7 +27,7 @@ Vector<double, Joints> InverseKinematics(std::array<ArmSegment, Joints>& segment
 	}
 
 	// Add the last joint position (the end effector)
-	jointPositions[Joints] = jointPositions[Joints - 1] + (rotationMatrices[i - 1] * (segments[i - 1].getRotationAxis().axis() * segments[i - 1].getLength()));
+	jointPositions[Joints] = jointPositions[Joints - 1] + (rotationMatrices[Joints - 1] * (segments[Joints - 1].getRotationAxis().axis() * segments[Joints - 1].getLength()));
 
 	// MATH
 	Matrix<double, 3, Joints> Jacobian;
@@ -41,8 +41,9 @@ Vector<double, Joints> InverseKinematics(std::array<ArmSegment, Joints>& segment
 		);
 	}
 
-	// Cleanup
-	for (size_t i = 1; i < Joints; i++) {
-		
-	}
+	// Pseudo-inverse of the Jacobian
+	Matrix<double, Joints, 3> JacobianPseudoInverse = Jacobian.pseudoInverse();
+
+	// Multiply the pseudo-inverse by the target velocity to get the joint velocities
+	return JacobianPseudoInverse * targetVelocity;
 }

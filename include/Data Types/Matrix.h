@@ -102,6 +102,7 @@ public:
 		return result;
 	}
 
+	// Matrix-Vector multiplication
 	VectorBase<T, ROWS, true> operator*(const VectorBase<T, ROWS, true>& vec) {
 		VectorBase<T, ROWS, true> result;
 		for (size_t i = 0; i < ROWS; i++) {
@@ -115,12 +116,92 @@ public:
 	}
 
 	Matrix<T, ROWS, COLS> pseudoInverse() {
-		auto t = this->transpose();
-		(t*(*this)).transpose()*t;
+		if constexpr (ROWS == COLS) {
+			// Square matrix inverse
+			return Matrix<T, ROWS, COLS>{};
+		}
+		else {
+			return inverseRectangle();
+		}
 	}
 
 	constexpr size_t rows() { return ROWS; };
 	constexpr size_t columns() { return COLS; };
 private:
 	T data[ROWS * COLS];
+
+	// Forward substitution for 
+	Vector<T, COLS> forwardSubstitution(const Matrix<T, ROWS, COLS>& L, const Vector<T, ROWS>& b) {
+		Vector<T, COLS> y;
+
+		for (size_t i = 0; i < COLS; i++) {
+			double sum = 0.0;
+
+			for (size_t j = 0; j < i; j++) {
+				sum += L(i, j) * y[j];
+			}
+
+			y[i] = (b[i] - sum) / L(i, j);
+		}
+
+		return y;
+	}
+
+	Vector<T, COLS> backwardSubsitution(cons Matrix<T, ROWS, COLS>& L, const Vector<T, ROWS>& b) {
+		Vector<T, COLS> x;
+
+		for (size_t i = COLS - 1; i >= 0; i--) {
+			double sum = 0.0;
+
+			for (size_t j = i + 1; j < COLS; j++) {
+				sum += L(j, i) * x[j];
+			}
+
+			x[i] = (y[i] - sum) / L(i, i);
+		}
+		return x;
+	}
+
+	Matrix<T, ROWS, COLS> inverseRectangle() {
+		Matrix<T, ROWS, COLS> L;
+		Matrix<T, ROWS, ROWS> M = operator*(transpose());
+
+		// Cholesky decomposition to get a matrix pseudo-inverse. Guys IDK anymore
+		for (size_t i = 0; i < ROWS; i++) {
+			for (size_t j = 0; j <= i; j++) {
+				double sum = 0.0;
+
+				if (j == i) {
+					for (size_t k = 0; k < j; k++) {
+						sum += L(j, k) * L(j, k);
+					}
+					L(j, j) = sqrt(M(j, j) - sum);
+				}
+				else {
+					for (size_t k = 0; k < j; k++) {
+						sum += L(i, k) * L(j, k);
+					}
+					L(i, j) = (M(i, j) - sum) / L(j, j);
+				}
+			}
+		}
+
+		Matrix<T, ROWS, COLS> inv;
+
+		for (size_t col = 0; col < COLS; col++) {
+			VectorBase<T, ROWS, true> b;
+			b[col] = 1;
+
+			Vector<T, COLS> y = forwardSubstitution(L, b);
+
+			Vector<T, COLS> x = backwardSubsitution(L, y);
+
+			for (size_t row = 0; row < COLS; row++) {
+				inv(row, col) = x[row];
+			}
+		}
+
+		return inv;
+
+	}
 };
