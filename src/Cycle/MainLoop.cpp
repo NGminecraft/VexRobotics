@@ -7,6 +7,7 @@ void MainLoop::loop() {
 		for (auto& phase : phases) {
 			phase->execute(tick);
 		}
+
 		// Increment tick counter
 		tick++;
 		// Give async tasks time to run
