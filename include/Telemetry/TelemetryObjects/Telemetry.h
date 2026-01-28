@@ -17,7 +17,7 @@ public:
 		return previousData;
 	}
 
-	inline void update(unsigned long tick) {
+	inline void update(const unsigned long tick) {
 		previousData = data; // Store previous data point
 		double time = vex::timer::system(); // Time to reference for this data point
 		data = TelemetryDataPoint<T>::create(

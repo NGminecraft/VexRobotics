@@ -5,7 +5,7 @@ class StateObject {
 public:
 	StateObject(T& obj) : object(obj) {}
 
-	virtual void update(unsigned long tick) = 0;
+	virtual void update(const unsigned long tick) = 0;
 
 	T& getObject() { return object; }
 protected:
