@@ -728,10 +728,4 @@ namespace vex {
 // ============================================================================
 // this_thread namespace for sleep functionality
 // ============================================================================
-
-namespace this_thread {
-    inline void sleep_for(int32_t milliseconds) {}
-    inline void sleep_until(int32_t time) {}
-}
-
 #endif // VEX_H
