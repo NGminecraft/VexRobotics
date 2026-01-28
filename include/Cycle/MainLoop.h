@@ -6,7 +6,9 @@ class MainLoop {
 public:
 	MainLoop() = default;
 
-	inline void registerPhase(LoopPhase phase) {
+	~MainLoop();
+
+	inline void registerPhase(LoopPhase* phase) {
 		phases.push_back(phase);
 	}
 
@@ -14,7 +16,7 @@ public:
 
 private:
 	unsigned long tick = 0;
-	std::vector<LoopPhase> phases;
+	std::vector<LoopPhase*> phases;
 
 	bool running = true;
 };
