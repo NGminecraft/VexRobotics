@@ -416,13 +416,13 @@ namespace vex {
 
     class drivetrain {
     private:
-        motor_group& left_motors;
-        motor_group& right_motors;
-        double wheel_travel;
-        double track_width;
-        double wheel_base;
-        distanceUnits distance_units;
-        gearSetting gear_ratio;
+        [[maybe_unused]] motor_group& left_motors;
+        [[maybe_unused]] motor_group& right_motors;
+        [[maybe_unused]] double wheel_travel;
+        [[maybe_unused]] double track_width;
+        [[maybe_unused]] double wheel_base;
+        [[maybe_unused]] distanceUnits distance_units;
+        [[maybe_unused]] gearSetting gear_ratio;
 
     public:
         drivetrain(motor_group& left, motor_group& right,
