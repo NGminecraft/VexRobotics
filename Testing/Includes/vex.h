@@ -410,6 +410,108 @@ namespace vex {
 
         brain() {}
     };
+    // ============================================================================
+// Drivetrain Class
+// ============================================================================
+
+    class drivetrain {
+    private:
+        motor_group& left_motors;
+        motor_group& right_motors;
+        double wheel_travel;
+        double track_width;
+        double wheel_base;
+        distanceUnits distance_units;
+        gearSetting gear_ratio;
+
+    public:
+        drivetrain(motor_group& left, motor_group& right,
+            double wheelTravel, double trackWidth,
+            distanceUnits units = distanceUnits::in,
+            gearSetting gears = gearSetting::ratio18_1)
+            : left_motors(left), right_motors(right),
+            wheel_travel(wheelTravel), track_width(trackWidth),
+            wheel_base(trackWidth), distance_units(units), gear_ratio(gears) {
+        }
+
+        drivetrain(motor_group& left, motor_group& right,
+            double wheelTravel, double trackWidth, double wheelBase,
+            distanceUnits units = distanceUnits::in,
+            gearSetting gears = gearSetting::ratio18_1)
+            : left_motors(left), right_motors(right),
+            wheel_travel(wheelTravel), track_width(trackWidth),
+            wheel_base(wheelBase), distance_units(units), gear_ratio(gears) {
+        }
+
+        // Drive methods
+        void drive(directionType dir) {}
+        void drive(directionType dir, double velocity, velocityUnits units) {}
+        void drive(directionType dir, double velocity, percentUnits units) {}
+
+        void driveFor(directionType dir, double distance, distanceUnits units) {}
+        void driveFor(directionType dir, double distance, distanceUnits units, bool waitForCompletion) {}
+        void driveFor(directionType dir, double distance, distanceUnits units,
+            double velocity, velocityUnits velUnits) {
+        }
+        void driveFor(directionType dir, double distance, distanceUnits units,
+            double velocity, velocityUnits velUnits, bool waitForCompletion) {
+        }
+
+        // Turn methods
+        void turn(turnType dir) {}
+        void turn(turnType dir, double velocity, velocityUnits units) {}
+        void turn(turnType dir, double velocity, percentUnits units) {}
+
+        void turnFor(turnType dir, double angle, rotationUnits units) {}
+        void turnFor(turnType dir, double angle, rotationUnits units, bool waitForCompletion) {}
+        void turnFor(turnType dir, double angle, rotationUnits units,
+            double velocity, velocityUnits velUnits) {
+        }
+        void turnFor(turnType dir, double angle, rotationUnits units,
+            double velocity, velocityUnits velUnits, bool waitForCompletion) {
+        }
+
+        void turnToHeading(double angle, rotationUnits units) {}
+        void turnToHeading(double angle, rotationUnits units, bool waitForCompletion) {}
+        void turnToHeading(double angle, rotationUnits units,
+            double velocity, velocityUnits velUnits) {
+        }
+        void turnToHeading(double angle, rotationUnits units,
+            double velocity, velocityUnits velUnits, bool waitForCompletion) {
+        }
+
+        void turnToRotation(double angle, rotationUnits units) {}
+        void turnToRotation(double angle, rotationUnits units, bool waitForCompletion) {}
+        void turnToRotation(double angle, rotationUnits units,
+            double velocity, velocityUnits velUnits) {
+        }
+        void turnToRotation(double angle, rotationUnits units,
+            double velocity, velocityUnits velUnits, bool waitForCompletion) {
+        }
+
+        // Arcade control
+        void arcade(double drivePower, double turnPower) {}
+        void arcade(double drivePower, double turnPower, percentUnits units) {}
+
+        // Stop methods
+        void stop() {}
+        void stop(brakeType mode) {}
+        void setStopping(brakeType mode) {}
+
+        // Configuration
+        void setDriveVelocity(double velocity, velocityUnits units) {}
+        void setDriveVelocity(double velocity, percentUnits units) {}
+        void setTurnVelocity(double velocity, velocityUnits units) {}
+        void setTurnVelocity(double velocity, percentUnits units) {}
+
+        void setTimeout(int32_t time, timeUnits units) {}
+
+        // Status
+        bool isMoving() const { return false; }
+        bool isDone() const { return true; }
+        double heading() const { return 0.0; }
+        double rotation() const { return 0.0; }
+    };
 
     // ============================================================================
     // Inertial Sensor Class
