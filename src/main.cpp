@@ -7,8 +7,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 #include "vex.h"
-#include "DataTypes/Rotations.h"
-#include "ObjectGroups/Motors/Arm.h"
+#include "Cycle/MainLoop.h"
 using namespace vex;
 
 // A global instance of vex::brain used for printing to the V5 brain screen
@@ -16,14 +15,11 @@ vex::brain       Brain;
 
 // define your global instances of motors and other devices here
 
-vex::motor spin1 = vex::motor(vex::PORT1);
-vex::motor spin2 = vex::motor(vex::PORT2);
-vex::motor spin3 = vex::motor(vex::PORT3);
-
 int main() {
-    Brain.Screen.printAt( 10, 50, "Hello V5" );
-    while(1) {
-        // Allow other tasks to run
-        this_thread::sleep_for(10);
-    }
+	MainLoop mainLoop;
+
+	// Build and register phases for the main loop here
+
+	// Start the main loop
+	mainLoop.loop();
 }
