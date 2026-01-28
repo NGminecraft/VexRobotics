@@ -9,6 +9,16 @@ struct TelemetryDataPoint;
 template <typename T>
 class Telemetry {
 public:
+	inline Telemetry() {
+		// Initial value for the previous data point
+		previousData = TelemetryDataPoint<T>::create(
+			0,
+			0.0,
+			vex::timer::system(),
+			newData()
+		)
+	}
+
 	inline const TelemetryDataPoint<T> getData() const {
 		return data;
 	};

@@ -1,13 +1,6 @@
 #include "Telemetry/TelemetryObjects/Motors/MotorAmperage.h"
 
-MotorAmperage::MotorAmperage(vex::motor& motor) : motorRef(motor) {
-	// Initial value for the previous data point
-	previousData = TelemetryDataPoint<double>::create(
-		0,
-		0.0,
-		vex::timer::system(),
-		newData()
-	);
+MotorAmperage::MotorAmperage(vex::motor& motor) : Telemetry<double>(), motorRef(motor) {
 }
 
 double MotorAmperage::newData() { return motorRef.current(); }

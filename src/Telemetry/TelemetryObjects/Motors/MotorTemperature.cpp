@@ -1,12 +1,6 @@
 #include "Telemetry/TelemetryObjects/Motors/MotorTemperature.h"
 
-MotorTemperature::MotorTemperature(vex::motor& motor) : motorRef(motor) {
-	previousData = TelemetryDataPoint<double>::create(
-		0,
-		0.0,
-		vex::timer::system(),
-		newData()
-	);
+MotorTemperature::MotorTemperature(vex::motor& motor) : Telemetry<double>(), motorRef(motor) {
 }
 
 double MotorTemperature::newData() { return motorRef.temperature(); }
