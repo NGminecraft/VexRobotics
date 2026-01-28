@@ -544,7 +544,7 @@ namespace vex {
 
         double position(rotationUnits units) const { return position_value; }
         double velocity(velocityUnits units) const { return velocity_value; }
-        double angle(velocityUnits units) const { return position_value; }
+        double angle(rotationUnits units) const { return position_value; }
 
         void resetPosition() { position_value = 0; }
         void setPosition(double pos, rotationUnits units) { position_value = pos; }
