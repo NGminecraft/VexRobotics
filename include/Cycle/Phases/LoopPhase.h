@@ -4,5 +4,5 @@ public:
 	LoopPhase() = default;
 	virtual ~LoopPhase() = default;
 
-	virtual void execute(unsigned long tick) = 0;
+	virtual void execute(const unsigned long tick) = 0;
 };
