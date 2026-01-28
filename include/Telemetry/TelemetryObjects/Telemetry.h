@@ -16,7 +16,7 @@ public:
 			0.0,
 			vex::timer::system(),
 			newData()
-		)
+		);
 	}
 
 	inline const TelemetryDataPoint<T> getData() const {
