@@ -511,6 +511,7 @@ namespace vex {
         bool isDone() const { return true; }
         double heading() const { return 0.0; }
         double rotation() const { return 0.0; }
+        double velocity(velocityUnits units) const { return 0.0; }
     };
 
     // ============================================================================
