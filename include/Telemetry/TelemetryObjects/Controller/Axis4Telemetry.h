@@ -1,11 +1,11 @@
 #include "Telemetry/TelemetryObjects/Telemetry.h"
 #include "vex.h"
 
-class ButtonYTelemetry : public Telemetry<bool> {
+class Axis4Telemetry : public Telemetry<double> {
 public:
-	ButtonYTelemetry(vex::controller& c);
+	Axis4Telemetry(vex::controller& c);
 
-	bool newData();
+	double newData();
 
 private:
 	vex::controller& controllerRef;
