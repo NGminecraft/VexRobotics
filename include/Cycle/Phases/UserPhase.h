@@ -1,3 +1,4 @@
+#pragma once
 #include "Cycle/Phases/LoopPhase.h"
 #include "Objects/ControllerState.h"
 #include "Objects/DrivetrainState.h"

@@ -1,3 +1,4 @@
+#pragma once
 #include "vex.h"
 #include "Objects/StateObject.h"
 #include "Telemetry/TelemetryObjects/Controller/ControllerTelemetryHeaders.h"
