@@ -10,5 +10,5 @@ ButtonYTelemetry::ButtonYTelemetry(vex::controller& c) : controllerRef(c) {
 }
 
 bool ButtonYTelemetry::newData() {
-	return controllerRef.buttonY.pressing();
+	return static_cast<bool>(controllerRef.ButtonY.pressing());
 }

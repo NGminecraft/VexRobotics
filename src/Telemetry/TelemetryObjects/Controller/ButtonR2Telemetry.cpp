@@ -10,5 +10,5 @@ ButtonR2Telemetry::ButtonR2Telemetry(vex::controller& c) : controllerRef(c) {
 }
 
 bool ButtonR2Telemetry::newData() {
-	return controllerRef.buttonR2.pressing();
+	return static_cast<bool>(controllerRef.ButtonR2.pressing());
 }

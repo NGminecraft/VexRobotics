@@ -1,11 +1,11 @@
 #include "Telemetry/TelemetryObjects/Telemetry.h"
 #include "vex.h"
 
-class Axis3Telemetry : public Telemetry<double> {
+class Axis3Telemetry : public Telemetry<int> {
 public:
 	Axis3Telemetry(vex::controller& c);
 
-	double newData();
+	int newData();
 
 private:
 	vex::controller& controllerRef;
