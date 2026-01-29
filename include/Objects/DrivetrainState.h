@@ -4,6 +4,7 @@
 #include "vex.h"
 
 class DrivetrainState : public StateObject<vex::drivetrain> {
+public:
 	DrivetrainState(vex::drivetrain& dt);
 
 	void update(const unsigned long tick) override;

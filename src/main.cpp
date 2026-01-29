@@ -22,7 +22,7 @@ ControllerState controllerState(Controller1);
 vex::motor DriveLeftMotor(vex::PORT1);
 vex::motor DriveRightMotor(vex::PORT2);
 
-vex::drivetrain Drivetrain(DriveLeftMotor, DriveRightMotor);
+vex::drivetrain Drivetrain(DriveLeftMotor, DriveRightMotor, 319.19, 295, vex::distanceUnits::mm, vex::gearSetting::ratio18_1);
 DrivetrainState drivetrainState(Drivetrain);
 
 // define your global instances of motors and other devices here
@@ -33,7 +33,7 @@ int main() {
 	ArcadeMovement<ControllerAxis::Axis1, ControllerAxis::Axis2> movementLogic;
 	UserPhase<decltype(movementLogic)> userPhase(controllerState, drivetrainState);
 
-	mainLoop.registerPhase(userPhase);
+	mainLoop.registerPhase(&userPhase);
 
 	// Build and register phases for the main loop here
 
