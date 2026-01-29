@@ -9,7 +9,7 @@ public:
 	ControllerState(controller& c);
 
 	void update(const unsigned long tick) override;
-private:
+
 	// There got to have been a better way to do this...
 	Axis1Telemetry axis1;
 	Axis2Telemetry axis2;
