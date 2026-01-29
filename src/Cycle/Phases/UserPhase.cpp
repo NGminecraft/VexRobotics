@@ -1,6 +1,7 @@
 #include "Cycle/Phases/UserPhase.h"
 #include "vex.h"
 
+template <typename MovementStruct>
 UserPhase::UserPhase(ControllerState& c, DrivetrainState& dt) : LoopPhase(), 
 	controller(c),
 	drivetrain(dt)
