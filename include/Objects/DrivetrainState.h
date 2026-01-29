@@ -3,7 +3,7 @@
 #include "Telemetry/TelemetryObjects/Drivetrain/Dumb/DumbDrivetrainTelemetryHeaders.h"
 #include "vex.h"
 
-class DrivetrainState : StateObject<vex::drivetrain> {
+class DrivetrainState : public StateObject<vex::drivetrain> {
 	DrivetrainState(vex::drivetrain& dt);
 
 	void update(const unsigned long tick) override;
