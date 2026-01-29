@@ -1,4 +1,4 @@
-#include "Phases/UserPhase.h"
+#include "Cycle/Phases/UserPhase.h"
 #include "vex.h"
 
 UserPhase::UserPhase(ControllerState& c, DrivetrainState& dt) : LoopPhase(), 
