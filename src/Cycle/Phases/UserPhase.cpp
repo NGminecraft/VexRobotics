@@ -2,7 +2,7 @@
 #include "vex.h"
 
 template <typename MovementStruct>
-UserPhase::UserPhase(ControllerState& c, DrivetrainState& dt) : LoopPhase(), 
+UserPhase<MovementStruct>::UserPhase(ControllerState& c, DrivetrainState& dt) : LoopPhase(), 
 	controller(c),
 	drivetrain(dt)
 {
