@@ -14,10 +14,7 @@ public:
 	inline const MotorAmperage& getCurrent() const { return current; }
 	inline const MotorTemperature& getTemperature() const { return temperature; }
 
-	void update(unsigned long tick) {
-		current.update(tick);
-		temperature.update(tick);
-	}
+	void update(const unsigned long tick);
 
 protected:
 	MotorAmperage current;

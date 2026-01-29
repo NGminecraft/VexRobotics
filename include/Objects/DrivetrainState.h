@@ -6,7 +6,7 @@
 class DrivetrainState : StateObject<vex::drivetrain> {
 	DrivetrainState(vex::drivetrain& dt);
 
-	void update(unsigned long tick) override;
+	void update(const unsigned long tick) override;
 private:
 	DrivetrainVelocity velocity;
 };

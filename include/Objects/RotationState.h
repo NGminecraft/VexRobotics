@@ -11,7 +11,7 @@ public:
 	inline const RotationAngle& getAngle() const { return angle; }
 	inline const double getAngleRadians() const { return angle.getData().value * (M_PI / 180); }
 
-	void update(unsigned long tick) override;
+	void update(const unsigned long tick) override;
 
 private:
 	RotationAngle angle;
