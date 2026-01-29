@@ -10,3 +10,8 @@
 #include "Telemetry/TelemetryObjects/Controller/ButtonDownTelemetry.h"
 #include "Telemetry/TelemetryObjects/Controller/ButtonLeftTelemetry.h"
 #include "Telemetry/TelemetryObjects/Controller/ButtonRightTelemetry.h"
+
+#include "Axis1Telemetry.h"
+#include "Axis2Telemetry.h"
+#include "Axis3Telemetry.h"
+#include "Axis4Telemetry.h"
