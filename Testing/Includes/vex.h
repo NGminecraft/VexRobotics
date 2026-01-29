@@ -434,15 +434,6 @@ namespace vex {
             wheel_base(trackWidth), distance_units(units), gear_ratio(gears) {
         }
 
-        drivetrain(motor& left, motor& right,
-            double wheelTravel, double trackWidth,
-            distanceUnits units = distanceUnits::in,
-            gearSetting gears = gearSetting::ratio18_1)
-            : left_motors(left), right_motors(right),
-            wheel_travel(wheelTravel), track_width(trackWidth),
-            wheel_base(trackWidth), distance_units(units), gear_ratio(gears) {
-        }
-
         drivetrain(motor_group& left, motor_group& right,
             double wheelTravel, double trackWidth, double wheelBase,
             distanceUnits units = distanceUnits::in,

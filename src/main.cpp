@@ -22,7 +22,10 @@ ControllerState controllerState(Controller1);
 vex::motor DriveLeftMotor(vex::PORT1);
 vex::motor DriveRightMotor(vex::PORT2);
 
-vex::drivetrain Drivetrain(DriveLeftMotor, DriveRightMotor, 319.19, 295, vex::distanceUnits::mm, vex::gearSetting::ratio18_1);
+vex::motor_group leftMotors(DriveLeftMotor);
+vex::motor_group rightMotors(DriveRightMotor);
+
+vex::drivetrain Drivetrain(leftMotors, rightMotors);
 DrivetrainState drivetrainState(Drivetrain);
 
 // define your global instances of motors and other devices here
