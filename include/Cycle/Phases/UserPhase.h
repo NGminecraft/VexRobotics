@@ -7,7 +7,13 @@
 template <typename MovementStruct>
 class UserPhase : public LoopPhase {
 public:
-	UserPhase(ControllerState& controller, DrivetrainState& drivetrain);
+	UserPhase(ControllerState& c, DrivetrainState& dt) : LoopPhase(),
+		controller(c),
+		drivetrain(dt)
+	{
+		// Ok so originally I wanted to use async to get the controller values, but the callback functions don't actually
+		// Give us the new value, so we might as well just get the values on our schedule 
+	};
 
 	inline void execute(const unsigned long tick) {
 		MovementStruct::execute(controller, drivetrain);
