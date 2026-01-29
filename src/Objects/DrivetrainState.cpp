@@ -2,6 +2,6 @@
 
 DrivetrainState::DrivetrainState(vex::drivetrain& dt) : StateObject<vex::drivetrain>(dt), velocity(dt) {}
 
-void DrivetrainState::update(unsigned long tick) {
+void DrivetrainState::update(const unsigned long tick) {
 	velocity.update(tick);
 }
