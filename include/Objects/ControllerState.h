@@ -7,5 +7,5 @@ using controller = vex::controller;
 class ControllerState : public StateObject<controller> {
 	ControllerState(controller& c);
 
-	void update(const unsigned long tick);
+	void update(const unsigned long tick) override;
 };

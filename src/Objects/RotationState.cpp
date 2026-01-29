@@ -2,6 +2,6 @@
 
 RotationState::RotationState(vex::rotation& r) : StateObject<vex::rotation>(r), angle(r) {}
 
-void RotationState::update(unsigned long tick) {
+void RotationState::update(const unsigned long tick) {
 	angle.update(tick);
 }
