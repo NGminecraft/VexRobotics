@@ -8,7 +8,3 @@ UserPhase::UserPhase(ControllerState& c, DrivetrainState& dt) : LoopPhase(),
 	// Ok so originally I wanted to use async to get the controller values, but the callback functions don't actually
 	// Give us the new value, so we might as well just get the values on our schedule 
 }
-
-void UserPhase::execute(const unsigned long tick) {
-	
-}
