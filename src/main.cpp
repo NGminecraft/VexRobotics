@@ -25,7 +25,7 @@ vex::motor DriveRightMotor(vex::PORT2);
 vex::motor_group leftMotors(DriveLeftMotor);
 vex::motor_group rightMotors(DriveRightMotor);
 
-vex::drivetrain Drivetrain(leftMotors, rightMotors);
+vex::drivetrain Drivetrain(leftMotors, rightMotors, 319.19, 320, 40, vex::distanceUnits::mm, 1);
 DrivetrainState drivetrainState(Drivetrain);
 
 // define your global instances of motors and other devices here
