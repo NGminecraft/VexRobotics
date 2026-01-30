@@ -24,36 +24,68 @@ private:
 	DrivetrainState& drivetrain;
 };
 
-enum ControllerAxis {
+enum class ControllerAxis {
 	Axis1,
 	Axis2,
 	Axis3,
 	Axis4
 };
 
-// Helper function - evaluated at compile time
+// Template specialization for axis position getter (C++11 compatible)
 template<ControllerAxis Axis>
-static int getAxisPosition(ControllerState& c) {
-	if constexpr (Axis == ControllerAxis::Axis1) {
+struct AxisPositionGetter;
+
+template<>
+struct AxisPositionGetter<ControllerAxis::Axis1> {
+	static int get(ControllerState& c) {
 		return c.axis1.getData().value;
-	} else if constexpr (Axis == ControllerAxis::Axis2) {
+	}
+};
+
+template<>
+struct AxisPositionGetter<ControllerAxis::Axis2> {
+	static int get(ControllerState& c) {
 		return c.axis2.getData().value;
-	} else if constexpr (Axis == ControllerAxis::Axis3) {
+	}
+};
+
+template<>
+struct AxisPositionGetter<ControllerAxis::Axis3> {
+	static int get(ControllerState& c) {
 		return c.axis3.getData().value;
-	} else {
+	}
+};
+
+template<>
+struct AxisPositionGetter<ControllerAxis::Axis4> {
+	static int get(ControllerState& c) {
 		return c.axis4.getData().value;
 	}
+};
+
+template<ControllerAxis Axis>
+static int getAxisPosition(ControllerState& c) {
+	return AxisPositionGetter<Axis>::get(c);
 }
 
 enum ControllerScaling {
 	Linear
 };
 
+// Template specialization for scaling (C++11 compatible)
 template<ControllerScaling Scale>
-static double scaleValue(double x) {
-	if constexpr (Scale == ControllerScaling::Linear) {
+struct ValueScaler;
+
+template<>
+struct ValueScaler<ControllerScaling::Linear> {
+	static double scale(double x) {
 		return x;
 	}
+};
+
+template<ControllerScaling Scale>
+static double scaleValue(double x) {
+	return ValueScaler<Scale>::scale(x);
 }
 
 template <ControllerAxis ForwardAxis, ControllerAxis SideAxis, ControllerScaling Scale = ControllerScaling::Linear>
