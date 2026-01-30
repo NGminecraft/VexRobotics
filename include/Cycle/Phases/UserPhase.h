@@ -24,7 +24,7 @@ private:
 	DrivetrainState& drivetrain;
 };
 
-enum ControllerAxis {
+enum class ControllerAxis {
 	Axis1,
 	Axis2,
 	Axis3,
