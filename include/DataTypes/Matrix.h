@@ -1,11 +1,10 @@
 #pragma once
 #include "DataTypes/Vectors.h"
-#include <type_traits>
 #include <cstddef>
 #include <initializer_list>
+#include <type_traits>
 
-template <typename T, size_t ROWS, size_t COLS>
-requires std::is_arithmetic<T>::value
+template <typename T, size_t ROWS, size_t COLS, typename = typename std::enable_if<std::is_arithmetic<T>::value>::type>
 class Matrix {
 public:
 	// CONSTRUCTORS
@@ -18,7 +17,8 @@ public:
 	// FACTORIES
 
 	// Creates an identity matrix
-	static Matrix<T, ROWS, COLS> identity() requires (ROWS == COLS) {
+	template<size_t Dummy = ROWS, typename = typename std::enable_if<(Dummy == COLS)>::type>
+	static Matrix<T, ROWS, COLS> identity() {
 		Matrix<T, ROWS, COLS> mat;
 		for (size_t i = 0; i < ROWS; i++) {
 			mat(i, i) = T{ 1 };
@@ -117,7 +117,7 @@ public:
 	}
 
 	Matrix<T, ROWS, COLS> pseudoInverse() {
-		if constexpr (ROWS == COLS) {
+		if (ROWS == COLS) {
 			// Square matrix inverse
 			return Matrix<T, ROWS, COLS>{};
 		}
