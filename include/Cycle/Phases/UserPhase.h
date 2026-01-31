@@ -16,6 +16,7 @@ public:
 	};
 
 	inline void execute(const unsigned long tick) {
+		controller.update(tick);
 		MovementStruct::execute(controller, drivetrain);
 	}
 

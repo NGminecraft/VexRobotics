@@ -4,7 +4,7 @@
 
 class MainLoop {
 public:
-	MainLoop() = default;
+	MainLoop();
 
 	~MainLoop();
 

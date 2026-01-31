@@ -33,8 +33,10 @@ DrivetrainState drivetrainState(Drivetrain);
 int main() {
 	MainLoop mainLoop;
 
-	ArcadeMovement<ControllerAxis::Axis1, ControllerAxis::Axis2> movementLogic;
+	ArcadeMovement<ControllerAxis::Axis3, ControllerAxis::Axis4> movementLogic;
 	UserPhase<decltype(movementLogic)> userPhase(controllerState, drivetrainState);
+
+	Brain.Screen.print("Hello World!");
 
 	mainLoop.registerPhase(&userPhase);
 
