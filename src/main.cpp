@@ -11,6 +11,7 @@
 #include "Cycle/Phases/UserPhase.h"
 #include "Objects/ControllerState.h"
 #include "Objects/DrivetrainState.h"
+#include "Telemetry/Logging/Logger.h"
 using namespace vex;
 
 // A global instance of vex::brain used for printing to the V5 brain screen
@@ -31,6 +32,8 @@ DrivetrainState drivetrainState(Drivetrain);
 // define your global instances of motors and other devices here
 
 int main() {
+	Logger::getInstance(Brain, "Main").log("Starting main()");
+
 	MainLoop mainLoop;
 
 	ArcadeMovement<ControllerAxis::Axis3, ControllerAxis::Axis4> movementLogic;
