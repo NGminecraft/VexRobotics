@@ -11,6 +11,7 @@ public:
 
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger&) = delete;
+	void clear();
 
 private:
 	Logger(vex::brain& brain, const char* Name);

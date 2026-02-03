@@ -21,8 +21,8 @@ vex::brain       Brain;
 vex::controller Controller1;
 ControllerState controllerState(Controller1);
 
-vex::motor DriveLeftMotor(vex::PORT1);
-vex::motor DriveRightMotor(vex::PORT2);
+vex::motor DriveLeftMotor(vex::PORT1, false);
+vex::motor DriveRightMotor(vex::PORT2, true);
 
 vex::motor_group leftMotors(DriveLeftMotor);
 vex::motor_group rightMotors(DriveRightMotor);
@@ -37,7 +37,7 @@ int main() {
 
 	MainLoop mainLoop;
 
-	ArcadeMovement<ControllerAxis::Axis3, ControllerAxis::Axis4> movementLogic;
+	ArcadeMovement<ControllerAxis::Axis3, ControllerAxis::Axis1> movementLogic;
 	UserPhase<decltype(movementLogic)> userPhase(controllerState, drivetrainState);
 
 	Brain.Screen.print("Hello World!");
