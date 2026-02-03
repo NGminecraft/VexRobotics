@@ -98,15 +98,9 @@ struct ArcadeMovement {
 		int x = getAxisPosition<ForwardAxis>(c);
 		int y = getAxisPosition<SideAxis>(c);
 
-		std::stringstream ss;
-		ss << "Controller Axis Values - X: " << x << " Y: " << y << "\n\r";
-
 		// Scales the values
 		x = scaleValue<Scale>(x);
 		y = scaleValue<Scale>(y);
-		ss << "Scaled Axis Values - X: " << x << " Y: " << y << "\n\r";
-
-		Logger::getInstance().log(ss.str().c_str());
 
 		// Runs the arcade drive
 		return dt.getObject().arcade(x, y);
