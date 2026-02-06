@@ -5,17 +5,34 @@
 template <typename T>
 struct TelemetryDataPoint;
 
+// Non templated base class for telemetry objects
+class TelemetryBase {
+public:
+	TelemetryBase(unsigned int interval) : updateInterval(interval) {}
+
+	const unsigned int getUpdateInterval() const {
+		return updateInterval;
+	}
+
+	void setUpdateInterval(unsigned int interval) {
+		updateInterval = interval;
+	}
+
+	virtual void update(const unsigned long tick) = 0;
+private:
+	unsigned int updateInterval;
+};
+
 // Base class for any telemetry objects
 template <typename T>
-class Telemetry {
+class Telemetry : public TelemetryBase {
 public:
+	Telemetry(unsigned int interval) : TelemetryBase(interval) {}
+	Telemetry() : TelemetryBase(1) {}
+
 	inline const TelemetryDataPoint<T> getData() const {
 		return data;
 	};
-
-	inline const std::type_info& getType() const {
-		return typeid(T);
-	}
 
 	inline const TelemetryDataPoint<T> getPreviousData() {
 		return previousData;
