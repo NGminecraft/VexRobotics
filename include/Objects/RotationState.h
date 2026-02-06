@@ -4,15 +4,19 @@
 #include <Telemetry/TelemetryObjects/RotationSensors/RotationAngle.h>
 #include <vex_rotation.h>
 
-class RotationState : StateObject<vex::rotation> {
+// X-Macro list: Single source of truth for all rotation telemetry
+// Format: X(EnumName, DataType, ClassName)
+#define ROTATION_TELEMETRY_LIST(X) \
+	X(Angle, double, RotationAngle)
+
+class RotationState : public StateObject<vex::rotation, 1> {
 public:
 	RotationState(vex::rotation& r);
 
-	inline const RotationAngle& getAngle() const { return angle; }
-	inline const double getAngleRadians() const { return angle.getData().value * (M_PI / 180); }
+	// Generate everything: enum, type traits, methods, and switch
+	TELEMETRY_GENERATE_ALL(ROTATION_TELEMETRY_LIST, 1)
 
-	void update(const unsigned long tick) override;
-
-private:
-	RotationAngle angle;
+	inline double getAngleRadians() { 
+		return getTelemetry<TelemetryTypes::Angle>()->getData().value * (M_PI / 180.0); 
+	}
 };
