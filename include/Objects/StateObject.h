@@ -1,12 +1,13 @@
 #pragma once
 #include "Objects/StateObjectMacros.h"
+#include "Telemetry/TelemetryObjects/Telemetry.h"
 // A abstract class representing a stateful object (e.g., motor, sensor)
 template <typename T, size_t COUNT>
 class StateObject {
 public:
 	StateObject(T& obj) : object(obj) {}
 
-	virtual void update(const unsigned long tick) {
+	void update(const unsigned long tick) {
 		for (size_t i = 0; i < COUNT; i++) {
 			if (telemetryObjects[i] != nullptr) {
 				telemetryObjects[i]->update(tick);
@@ -20,8 +21,6 @@ protected:
 	TelemetryBase* telemetryObjects[COUNT];
 
 	T& object;
-
-	void updateTelemetryObjects(TelemetryObjects);
 
 	void setTelemetryInterval(int idx, unsigned int interval) {
 		if (telemetryObjects[idx] != nullptr) {
