@@ -13,6 +13,10 @@ public:
 		return data;
 	};
 
+	inline const std::type_info& getType() const {
+		return typeid(T);
+	}
+
 	inline const TelemetryDataPoint<T> getPreviousData() {
 		return previousData;
 	}
