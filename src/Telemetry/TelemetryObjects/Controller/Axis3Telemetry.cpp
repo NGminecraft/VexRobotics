@@ -1,6 +1,6 @@
 #include "Telemetry/TelemetryObjects/Controller/Axis3Telemetry.h"
 
-Axis3Telemetry::Axis3Telemetry(vex::controller& c) : Telemetry <int>(), controllerRef(c) {
+Axis3Telemetry::Axis3Telemetry(vex::controller& c) : Telemetry <int>(1), controllerRef(c) {
 	previousData = TelemetryDataPoint<int>::create(
 		0,
 		0,

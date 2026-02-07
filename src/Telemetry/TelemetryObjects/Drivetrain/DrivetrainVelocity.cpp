@@ -1,6 +1,6 @@
 #include "Telemetry/TelemetryObjects/Drivetrain/Dumb/DrivetrainVelocity.h"
 
-DrivetrainVelocity::DrivetrainVelocity(vex::drivetrain& drivetrain) : Telemetry<double>(), drivetrainRef(drivetrain) {
+DrivetrainVelocity::DrivetrainVelocity(vex::drivetrain& drivetrain) : Telemetry<double>(10), drivetrainRef(drivetrain) {
 	previousData = TelemetryDataPoint<double>::create(
 		0,
 		0.0,

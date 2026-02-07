@@ -1,6 +1,6 @@
 #include "Telemetry/TelemetryObjects/Controller/ButtonR1Telemetry.h"
 
-ButtonR1Telemetry::ButtonR1Telemetry(vex::controller& c) : controllerRef(c) {
+ButtonR1Telemetry::ButtonR1Telemetry(vex::controller& c) : Telemetry<bool>(1), controllerRef(c) {
 	previousData = TelemetryDataPoint<bool>::create(
 		0,
 		0.0,

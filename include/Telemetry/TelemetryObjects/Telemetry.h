@@ -8,7 +8,7 @@ struct TelemetryDataPoint;
 // Non templated base class for telemetry objects
 class TelemetryBase {
 public:
-	TelemetryBase(unsigned int interval) : updateInterval(interval) {}
+	TelemetryBase(unsigned int interval) : updateInterval(interval), nextUpdate(0) {}
 
 	const unsigned int getUpdateInterval() const {
 		return updateInterval;
@@ -18,9 +18,14 @@ public:
 		updateInterval = interval;
 	}
 
+	unsigned long getNextUpdate() const {
+		return nextUpdate;
+	}
+
 	virtual void update(const unsigned long tick) = 0;
-private:
+protected:
 	unsigned int updateInterval;
+	unsigned long nextUpdate;
 };
 
 // Base class for any telemetry objects
@@ -47,6 +52,7 @@ public:
 			time,
 			newData()
 		);
+		nextUpdate += updateInterval;
 	};
 
 protected:
