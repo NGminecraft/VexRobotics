@@ -1,9 +1,10 @@
 #pragma once
 #include "Objects/StateObjectMacros.h"
 #include "Telemetry/TelemetryObjects/Telemetry.h"
-class StateObjectBase {
 
+class StateObjectBase {
 public:
+	virtual size_t getTelemetryCount() const = 0;
 	virtual TelemetryBase** getTelemetryPointers() = 0;
 };
 
@@ -23,6 +24,8 @@ public:
 	};
 
 	T& getObject() { return object; }
+
+	size_t getTelemetryCount() const override { return COUNT; }
 
 	TelemetryBase** getTelemetryPointers() override const { return telemetryObjects; }
 protected:

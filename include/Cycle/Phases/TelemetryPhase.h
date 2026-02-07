@@ -15,7 +15,7 @@ class TelemetryPhase : public LoopPhase {
 public:
 	TelemetryPhase();
 
-	void registerTelemetryUpdate(StateObject*)
+	void registerTelemetryUpdate(StateObjectBase* base);
 	void registerTelemetryUpdate(TelemetryBase** objects, unsigned int count);
 	void registerTelemetryUpdate(TelemetryBase* object);
 
