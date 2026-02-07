@@ -30,10 +30,11 @@ vex::motor_group rightMotors(DriveRightMotor);
 vex::drivetrain Drivetrain(leftMotors, rightMotors);
 DrivetrainState drivetrainState(Drivetrain);
 
-// define your global instances of motors and other devices here
-
 int main() {
+	// Create the logger
 	Logger::getInstance(Brain, "Main").log("Starting main()");
+	
+	// Our event loop
 	MainLoop mainLoop;
 
 	/* ---Controller Setup--- */
@@ -47,6 +48,7 @@ int main() {
 	// Register the controllers telemetry phase
 	mainLoop.registerPhase(&controllerTelemetryPhase);
 
+
 	/* ---User Phase Setup--- */
 	// Set the movement logic for the user
 	ArcadeMovement<ControllerAxis::Axis3, ControllerAxis::Axis1> movementLogic;
@@ -55,6 +57,7 @@ int main() {
 
 	// Register the user phase
 	mainLoop.registerPhase(&userPhase);
+
 
 	// Start the main loop
 	mainLoop.loop();
