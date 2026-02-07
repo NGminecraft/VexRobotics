@@ -18,7 +18,6 @@ public:
 	};
 
 	inline void execute(const unsigned long tick) {
-		controller.update(tick);
 		MovementStruct::execute(controller, drivetrain);
 	}
 
@@ -41,28 +40,28 @@ struct AxisPositionGetter;
 template<>
 struct AxisPositionGetter<ControllerAxis::Axis1> {
 	static int get(ControllerState& c) {
-		return c.axis1.getData().value;
+		return c.getTelemetry<ControllerState::TelemetryTypes::Axis1>()->getData().value;
 	}
 };
 
 template<>
 struct AxisPositionGetter<ControllerAxis::Axis2> {
 	static int get(ControllerState& c) {
-		return c.axis2.getData().value;
+		return c.getTelemetry<ControllerState::TelemetryTypes::Axis2>()->getData().value;
 	}
 };
 
 template<>
 struct AxisPositionGetter<ControllerAxis::Axis3> {
 	static int get(ControllerState& c) {
-		return c.axis3.getData().value;
+		return c.getTelemetry<ControllerState::TelemetryTypes::Axis3>()->getData().value;
 	}
 };
 
 template<>
 struct AxisPositionGetter<ControllerAxis::Axis4> {
 	static int get(ControllerState& c) {
-		return c.axis4.getData().value;
+		return c.getTelemetry<ControllerState::TelemetryTypes::Axis4>()->getData().value;
 	}
 };
 

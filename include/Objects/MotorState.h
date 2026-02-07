@@ -6,17 +6,16 @@
 #include "../Telemetry/TelemetryObjects/Motors/MotorTemperature.h"
 #include "Objects/StateObject.h"
 
-class MotorState : public StateObject<vex::motor> {
-public:
+// X-Macro list: Single source of truth for all motor telemetry
+// Format: X(EnumName, DataType, ClassName)
+#define MOTOR_TELEMETRY_LIST(X) \
+	X(Current, double, MotorAmperage) \
+	X(Temperature, double, MotorTemperature)
 
+class MotorState : public StateObject<vex::motor, 2> {
+public:
 	MotorState(vex::motor& m);
 
-	inline const MotorAmperage& getCurrent() const { return current; }
-	inline const MotorTemperature& getTemperature() const { return temperature; }
-
-	void update(const unsigned long tick);
-
-protected:
-	MotorAmperage current;
-	MotorTemperature temperature;
+	// Generate everything: enum, type traits, methods, and switch
+	TELEMETRY_GENERATE_ALL(MOTOR_TELEMETRY_LIST, 2)
 };
