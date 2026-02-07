@@ -27,7 +27,15 @@ public:
 
 	size_t getTelemetryCount() const override { return COUNT; }
 
-	TelemetryBase** getTelemetryPointers() override const { return telemetryObjects; }
+	TelemetryBase** getTelemetryPointers() override { return telemetryObjects; }
+
+	void setTelemetryIntervals(const unsigned int(&intervals)[COUNT]) {
+		for (size_t i = 0; i < COUNT; i++) {
+			if (telemetryObjects[i] != nullptr) {
+				telemetryObjects[i]->setUpdateInterval(intervals[i]);
+			}
+		}
+	}
 protected:
 	TelemetryBase* telemetryObjects[COUNT];
 

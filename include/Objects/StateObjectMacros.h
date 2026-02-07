@@ -31,6 +31,13 @@
         } \
     } \
     \
+    void initializeTelemetries(const unsigned int(&intervals)[Count]) { \
+        for (size_t i = 0; i < Count; i++) { \
+            if (intervals[i] != 0) { \
+                addTelemetryObject(static_cast<TelemetryTypes>(i), intervals[i]); \
+            }\
+        } \
+    } \
     TelemetryBase* getTelemetryBase(TelemetryTypes type) { \
         return telemetryObjects[static_cast<int>(type)]; \
     } \
@@ -38,8 +45,7 @@
     template <TelemetryTypes T> \
     auto getTelemetry()  -> decltype(instantiateTelemetry(T)) { \
         return static_cast<decltype(instantiateTelemetry(T))>(getTelemetryBase(T)); \
-    }
-
+    } \
 // Generate the switch statement for instantiateTelemetry
 #define TELEMETRY_CASE(Type, Class) \
     case TelemetryTypes::Type: return new Class(this->object);

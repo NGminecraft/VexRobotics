@@ -34,6 +34,4 @@ public:
 
 	// Generate everything: enum, type traits, methods, and switch
 	TELEMETRY_GENERATE_ALL(CONTROLLER_TELEMETRY_LIST, 16)
-
-	void registerTelemetryObjects(TelemetryPhase& phase);
 };
