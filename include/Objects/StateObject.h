@@ -1,9 +1,16 @@
 #pragma once
 #include "Objects/StateObjectMacros.h"
 #include "Telemetry/TelemetryObjects/Telemetry.h"
+class StateObjectBase {
+
+public:
+	virtual TelemetryBase** getTelemetryPointers() = 0;
+};
+
+
 // A abstract class representing a stateful object (e.g., motor, sensor)
 template <typename T, size_t COUNT>
-class StateObject {
+class StateObject : public StateObjectBase {
 public:
 	StateObject(T& obj) : object(obj) {}
 
@@ -17,6 +24,7 @@ public:
 
 	T& getObject() { return object; }
 
+	TelemetryBase** getTelemetryPointers() override const { return telemetryObjects; }
 protected:
 	TelemetryBase* telemetryObjects[COUNT];
 

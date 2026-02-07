@@ -1,6 +1,7 @@
 #pragma once
 #include "Cycle/Phases/LoopPhase.h"
 #include "Telemetry/TelemetryObjects/Telemetry.h"
+#include "Objects/StateObject.h"
 #include <vector>
 #include <memory>
 #include <queue>
@@ -14,6 +15,7 @@ class TelemetryPhase : public LoopPhase {
 public:
 	TelemetryPhase();
 
+	void registerTelemetryUpdate(StateObject*)
 	void registerTelemetryUpdate(TelemetryBase** objects, unsigned int count);
 	void registerTelemetryUpdate(TelemetryBase* object);
 
