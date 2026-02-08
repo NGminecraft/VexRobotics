@@ -1,0 +1,108 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ dev, main, master ]
+  pull_request:
+    branches: [ dev, main, master ]
+
+jobs:
+  build-linux:
+    name: Build and Test (Linux)
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential g++
+    
+    - name: Build DataTypes Test
+      run: |
+        cd Testing/DataTypesTest
+        make clean
+        make
+    
+    - name: Run DataTypes Test
+      run: |
+        cd Testing/DataTypesTest
+        ./test_datatypes.exe || ./test_datatypes
+    
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: linux-test-results
+        path: Testing/DataTypesTest/*.log
+        if-no-files-found: ignore
+
+  build-windows:
+    name: Build and Test (Windows)
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Setup MinGW
+      uses: egor-tensin/setup-mingw@v2
+      with:
+        platform: x64
+    
+    - name: Verify compiler
+      run: |
+        g++ --version
+        mingw32-make --version
+    
+    - name: Build DataTypes Test
+      run: |
+        cd Testing/DataTypesTest
+        mingw32-make clean
+        mingw32-make
+    
+    - name: Run DataTypes Test
+      run: |
+        cd Testing/DataTypesTest
+        .\test_datatypes.exe
+    
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: windows-test-results
+        path: Testing/DataTypesTest/*.log
+        if-no-files-found: ignore
+
+  build-macos:
+    name: Build and Test (macOS)
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: |
+        brew install gcc
+    
+    - name: Build DataTypes Test
+      run: |
+        cd Testing/DataTypesTest
+        make clean
+        make
+    
+    - name: Run DataTypes Test
+      run: |
+        cd Testing/DataTypesTest
+        ./test_datatypes.exe || ./test_datatypes
+    
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: macos-test-results
+        path: Testing/DataTypesTest/*.log
+        if-no-files-found: ignore

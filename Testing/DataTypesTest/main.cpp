@@ -1,7 +1,13 @@
 #include <iostream>
 #include <iomanip>
+#include <cmath>
+#include <cstdlib>
 #include "../../include/DataTypes/Vectors.h"
 #include "../../include/DataTypes/Matrix.h"
+
+// Test counter
+int tests_passed = 0;
+int tests_failed = 0;
 
 // Helper function to print a vector
 template<typename T, size_t N>
@@ -28,6 +34,28 @@ void printMatrix(const Matrix<T, ROWS, COLS>& mat, const std::string& name) {
     }
 }
 
+// Test assertion helper
+template<typename T>
+void assert_equals(const T& actual, const T& expected, const std::string& test_name) {
+    if (std::abs(actual - expected) < 1e-6) {
+        std::cout << "[PASS] " << test_name << std::endl;
+        tests_passed++;
+    } else {
+        std::cout << "[FAIL] " << test_name << " - Expected: " << expected << ", Got: " << actual << std::endl;
+        tests_failed++;
+    }
+}
+
+void assert_true(bool condition, const std::string& test_name) {
+    if (condition) {
+        std::cout << "[PASS] " << test_name << std::endl;
+        tests_passed++;
+    } else {
+        std::cout << "[FAIL] " << test_name << std::endl;
+        tests_failed++;
+    }
+}
+
 int main() {
     std::cout << "========================================" << std::endl;
     std::cout << "      VECTOR OPERATIONS TEST" << std::endl;
@@ -44,17 +72,28 @@ int main() {
     // Test scalar multiplication
     auto v3 = v1 * 2.0;
     printVector(v3, "v1 * 2.0");
+    assert_equals(v3[0], 2.0, "Scalar multiplication index 0");
+    assert_equals(v3[1], 4.0, "Scalar multiplication index 1");
+    assert_equals(v3[2], 6.0, "Scalar multiplication index 2");
     
     // Test elementwise multiplication
     auto v4 = v1 * v2;
     printVector(v4, "v1 * v2 (elementwise)");
+    assert_equals(v4[0], 4.0, "Elementwise multiplication index 0");
+    assert_equals(v4[1], 10.0, "Elementwise multiplication index 1");
+    assert_equals(v4[2], 18.0, "Elementwise multiplication index 2");
     
     // Test cross product
     auto v5 = v1.cross(v2);
     printVector(v5, "v1 x v2 (cross product)");
+    assert_equals(v5[0], -3.0, "Cross product index 0");
+    assert_equals(v5[1], 6.0, "Cross product index 1");
+    assert_equals(v5[2], -3.0, "Cross product index 2");
     
     // Test sum
-    std::cout << "Sum of v1: " << v1.sum() << std::endl;
+    double v1_sum = v1.sum();
+    std::cout << "Sum of v1: " << v1_sum << std::endl;
+    assert_equals(v1_sum, 6.0, "Vector sum");
     std::cout << std::endl;
     
     std::cout << "========================================" << std::endl;
@@ -177,10 +216,44 @@ int main() {
 	printMatrix(m8, "m8 (3x2)");
 	auto m8_pinv = m8.pseudoInverse();
 	printMatrix(m8_pinv, "Pseudo-inverse of m8");
+	
+	// Verify pseudo-inverse property: A * A^+ * A ? A
+	auto m8_test = m8 * m8_pinv;
+	auto m8_reconstructed = m8_test * m8;
+	bool pinv_valid = true;
+	for (size_t i = 0; i < 3; i++) {
+		for (size_t j = 0; j < 2; j++) {
+			if (std::abs(m8_reconstructed(i, j) - m8(i, j)) > 1e-10) {
+				pinv_valid = false;
+			}
+		}
+	}
+	assert_true(pinv_valid, "Pseudo-inverse property A*A^+*A ? A");
+	
+	// Check that result is not NaN
+	bool has_nan = false;
+	for (size_t i = 0; i < 2; i++) {
+		for (size_t j = 0; j < 3; j++) {
+			if (std::isnan(m8_pinv(i, j))) {
+				has_nan = true;
+			}
+		}
+	}
+	assert_true(!has_nan, "Pseudo-inverse contains no NaN values");
 
+    std::cout << std::endl;
     std::cout << "========================================" << std::endl;
-    std::cout << "         ALL TESTS COMPLETE" << std::endl;
+    std::cout << "         TEST SUMMARY" << std::endl;
     std::cout << "========================================" << std::endl;
+    std::cout << "Tests Passed: " << tests_passed << std::endl;
+    std::cout << "Tests Failed: " << tests_failed << std::endl;
+    std::cout << "Total Tests:  " << (tests_passed + tests_failed) << std::endl;
     
-    return 0;
+    if (tests_failed == 0) {
+        std::cout << "\n? ALL TESTS PASSED!" << std::endl;
+        return 0;
+    } else {
+        std::cout << "\n? SOME TESTS FAILED!" << std::endl;
+        return 1;
+    }
 }
