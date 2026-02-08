@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <initializer_list>
 #include <type_traits>
+#include <cmath>
 
 template <typename T, size_t ROWS, size_t COLS, typename = typename std::enable_if<std::is_arithmetic<T>::value>::type>
 class Matrix {
@@ -116,13 +117,12 @@ public:
 		return result;
 	}
 
-	Matrix<T, ROWS, COLS> pseudoInverse() {
-		if (ROWS == COLS) {
-			// Square matrix inverse
-			return Matrix<T, ROWS, COLS>{};
+	Matrix<T, COLS, ROWS> pseudoInverse() {
+		if (ROWS >= COLS) {
+			return leftPseudoInverse();
 		}
 		else {
-			return inverseRectangle();
+			return rightPseudoInverse();
 		}
 	}
 
@@ -131,12 +131,13 @@ public:
 private:
 	T data[ROWS * COLS];
 
-	// Forward substitution for 
-	Vector<T, COLS> forwardSubstitution(const Matrix<T, ROWS, COLS>& L, const Vector<T, ROWS>& b) {
-		Vector<T, COLS> y;
+	// Forward substitution for lower triangular system L*y = b
+	template<size_t N>
+	Vector<T, N> forwardSubstitution(const Matrix<T, N, N>& L, const Vector<T, N>& b) {
+		Vector<T, N> y;
 
-		for (size_t i = 0; i < COLS; i++) {
-			double sum = 0.0;
+		for (size_t i = 0; i < N; i++) {
+			T sum = T(0);
 
 			for (size_t j = 0; j < i; j++) {
 				sum += L(i, j) * y[j];
@@ -148,13 +149,15 @@ private:
 		return y;
 	}
 
-	Vector<T, COLS> backwardSubsitution(const Matrix<T, ROWS, COLS>& L, const Vector<T, ROWS>& b) {
-		Vector<T, COLS> x;
+	// Backward substitution for upper triangular system L^T*x = y
+	template<size_t N>
+	Vector<T, N> backwardSubstitution(const Matrix<T, N, N>& L, const Vector<T, N>& b) {
+		Vector<T, N> x;
 
-		for (size_t i = COLS - 1; i >= 0; i--) {
-			double sum = 0.0;
+		for (int i = N - 1; i >= 0; i--) {
+			T sum = T(0);
 
-			for (size_t j = i + 1; j < COLS; j++) {
+			for (size_t j = i + 1; j < N; j++) {
 				sum += L(j, i) * x[j];
 			}
 
@@ -163,20 +166,19 @@ private:
 		return x;
 	}
 
-	Matrix<T, ROWS, COLS> inverseRectangle() {
-		Matrix<T, ROWS, COLS> L;
-		Matrix<T, ROWS, ROWS> M = operator*(transpose());
-
-		// Cholesky decomposition to get a matrix pseudo-inverse. Guys IDK anymore
-		for (size_t i = 0; i < ROWS; i++) {
+	// Cholesky decomposition helper: computes L where M = L*L^T
+	template<size_t N>
+	void choleskyDecomposition(const Matrix<T, N, N>& M, Matrix<T, N, N>& L) {
+		for (size_t i = 0; i < N; i++) {
 			for (size_t j = 0; j <= i; j++) {
-				double sum = 0.0;
+				T sum = T(0);
 
 				if (j == i) {
 					for (size_t k = 0; k < j; k++) {
 						sum += L(j, k) * L(j, k);
 					}
-					L(j, j) = sqrt(M(j, j) - sum);
+					T diag = M(j, j) - sum;
+					L(j, j) = std::sqrt(diag);
 				}
 				else {
 					for (size_t k = 0; k < j; k++) {
@@ -186,22 +188,40 @@ private:
 				}
 			}
 		}
+	}
 
-		Matrix<T, ROWS, COLS> inv;
+	// Solve M*X = I using Cholesky decomposition, where M = L*L^T
+	template<size_t N>
+	Matrix<T, N, N> solveInverse(const Matrix<T, N, N>& M) {
+		Matrix<T, N, N> L;
+		choleskyDecomposition(M, L);
 
-		for (size_t col = 0; col < COLS; col++) {
-			VectorBase<T, ROWS, true> b;
-			b[col] = 1;
+		Matrix<T, N, N> M_inv;
 
-			Vector<T, COLS> y = forwardSubstitution(L, b);
+		for (size_t col = 0; col < N; col++) {
+			Vector<T, N> e;
+			e[col] = T(1);
 
-			Vector<T, COLS> x = backwardSubsitution(L, y);
+			Vector<T, N> y = forwardSubstitution<N>(L, e);
+			Vector<T, N> x = backwardSubstitution<N>(L, y);
 
-			for (size_t row = 0; row < COLS; row++) {
-				inv(row, col) = x[row];
-			}
+			M_inv.setColumn(col, x);
 		}
 
-		return inv;
+		return M_inv;
+	}
+
+	// Left pseudo-inverse: A^+ = (A^T*A)^-1 * A^T (for tall matrices: ROWS >= COLS)
+	Matrix<T, COLS, ROWS> leftPseudoInverse() {
+		Matrix<T, COLS, COLS> M = transpose() * (*this);
+		Matrix<T, COLS, COLS> M_inv = solveInverse<COLS>(M);
+		return M_inv * transpose();
+	}
+
+	// Right pseudo-inverse: A^+ = A^T * (A*A^T)^-1 (for wide matrices: ROWS < COLS)
+	Matrix<T, COLS, ROWS> rightPseudoInverse() {
+		Matrix<T, ROWS, ROWS> M = operator*(transpose());
+		Matrix<T, ROWS, ROWS> M_inv = solveInverse<ROWS>(M);
+		return transpose() * M_inv;
 	}
 };

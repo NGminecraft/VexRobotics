@@ -76,22 +76,24 @@ public:
 		data[i] = ptr;
 	}
 
-	T& operator[](size_t i) {
-		if (Owner) {
-			return data[i];
-		}
-		else {
-			return *data[i];
-		}
+	template<bool Dummy = Owner>
+	typename std::enable_if<Dummy, T&>::type operator[](size_t i) {
+		return data[i];
 	}
 
-	const T& operator[](size_t i) const {
-		if (Owner) {
-			return data[i];
-		}
-		else {
-			return *data[i];
-		}
+	template<bool Dummy = Owner>
+	typename std::enable_if<!Dummy, T&>::type operator[](size_t i) {
+		return *data[i];
+	}
+
+	template<bool Dummy = Owner>
+	typename std::enable_if<Dummy, const T&>::type operator[](size_t i) const {
+		return data[i];
+	}
+
+	template<bool Dummy = Owner>
+	typename std::enable_if<!Dummy, const T&>::type operator[](size_t i) const {
+		return *data[i];
 	}
 
 	// Elementwise multiplication
@@ -116,9 +118,9 @@ public:
 	template<size_t Dummy = N, typename = typename std::enable_if<(Dummy == 3)>::type>
 	VectorBase<T, 3, true> cross(VectorBase<T, 3, true> vec) {
 		VectorBase<T, 3, true> ret;
-		ret[0] = operator[](2) * vec[3] - operator[](3) * vec[2];
-		ret[1] = operator[](3) * vec[1] - operator[](1) * vec[3];
-		ret[2] = operator[](1) * vec[2] - operator[](2) * vec[1];
+		ret[0] = operator[](1) * vec[2] - operator[](2) * vec[1];
+		ret[1] = operator[](2) * vec[0] - operator[](0) * vec[2];
+		ret[2] = operator[](0) * vec[1] - operator[](1) * vec[0];
 		return ret;
 	}
 
