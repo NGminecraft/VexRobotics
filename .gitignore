@@ -12,3 +12,8 @@ compile_commands.json
 /VexRobotics.vcxproj
 /VexRobotics.vcxproj.user
 /.vscode/c_cpp_properties.json
+/VexRobotics.slnLaunch.user
+/VexRobotics.vcxproj.bak
+/Testing/DataTypesTest/main.o
+/Testing/DataTypesTest/nul
+/Testing/DataTypesTest/test_datatypes.exe
