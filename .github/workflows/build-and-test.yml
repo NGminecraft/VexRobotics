@@ -33,7 +33,7 @@ jobs:
     
     - name: Upload test results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: linux-test-results
         path: Testing/DataTypesTest/*.log
@@ -45,7 +45,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     
     - name: Setup MinGW
       uses: egor-tensin/setup-mingw@v2
@@ -70,7 +70,7 @@ jobs:
     
     - name: Upload test results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: windows-test-results
         path: Testing/DataTypesTest/*.log
@@ -101,7 +101,7 @@ jobs:
     
     - name: Upload test results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: macos-test-results
         path: Testing/DataTypesTest/*.log

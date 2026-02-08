@@ -1,4 +1,4 @@
-# VexRobotics
+﻿# VexRobotics
 
 ![Build and Test](https://github.com/NGminecraft/VexRobotics/workflows/Build%20and%20Test/badge.svg?branch=dev)
 
@@ -43,9 +43,9 @@ test_datatypes.exe
 ## Continuous Integration
 
 This project uses GitHub Actions for automated testing across multiple platforms:
-- ? Linux (Ubuntu)
-- ? Windows (MinGW)
-- ? macOS
+- ✓ Linux (Ubuntu)
+- ✓ Windows (MinGW)
+- ✓ macOS
 
 See [CI Documentation](.github/CI_README.md) for details.
 
@@ -53,18 +53,18 @@ See [CI Documentation](.github/CI_README.md) for details.
 
 ```
 VexRobotics/
-??? include/
-?   ??? DataTypes/
-?       ??? Vectors.h       # Vector implementation
-?       ??? Matrix.h        # Matrix implementation
-??? Testing/
-?   ??? DataTypesTest/
-?       ??? main.cpp        # Test suite
-?       ??? Makefile        # Build configuration
-??? .github/
-?   ??? workflows/
-?       ??? build-and-test.yml  # CI/CD pipeline
-??? README.md
+├── include/
+│   └── DataTypes/
+│       ├── Vectors.h       # Vector implementation
+│       └── Matrix.h        # Matrix implementation
+├── Testing/
+│   └── DataTypesTest/
+│       ├── main.cpp        # Test suite
+│       └── Makefile        # Build configuration
+├── .github/
+│   └── workflows/
+│       └── build-and-test.yml  # CI/CD pipeline
+└── README.md
 ```
 
 ## Usage Examples
@@ -76,7 +76,7 @@ VexRobotics/
 Vector<double, 3> v1 = {1.0, 2.0, 3.0};
 Vector<double, 3> v2 = {4.0, 5.0, 6.0};
 
-auto v3 = v1 * 2.0;           // Scalar multiplication
+auto v4 = v1 * 2.0;           // Scalar multiplication
 auto v4 = v1 * v2;            // Elementwise multiplication
 auto v5 = v1.cross(v2);       // Cross product
 double sum = v1.sum();        // Sum of elements

@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <iomanip>
 #include <cmath>
 #include <cstdlib>
@@ -217,7 +217,7 @@ int main() {
 	auto m8_pinv = m8.pseudoInverse();
 	printMatrix(m8_pinv, "Pseudo-inverse of m8");
 	
-	// Verify pseudo-inverse property: A * A^+ * A ? A
+	// Verify pseudo-inverse property: A * A^+ * A ≈ A
 	auto m8_test = m8 * m8_pinv;
 	auto m8_reconstructed = m8_test * m8;
 	bool pinv_valid = true;
@@ -228,7 +228,7 @@ int main() {
 			}
 		}
 	}
-	assert_true(pinv_valid, "Pseudo-inverse property A*A^+*A ? A");
+	assert_true(pinv_valid, "Pseudo-inverse property A*A^+*A ≈ A");
 	
 	// Check that result is not NaN
 	bool has_nan = false;
@@ -250,10 +250,10 @@ int main() {
     std::cout << "Total Tests:  " << (tests_passed + tests_failed) << std::endl;
     
     if (tests_failed == 0) {
-        std::cout << "\n? ALL TESTS PASSED!" << std::endl;
+        std::cout << "\n✓ ALL TESTS PASSED!" << std::endl;
         return 0;
     } else {
-        std::cout << "\n? SOME TESTS FAILED!" << std::endl;
+        std::cout << "\n✗ SOME TESTS FAILED!" << std::endl;
         return 1;
     }
 }
