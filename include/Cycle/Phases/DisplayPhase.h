@@ -1,6 +1,7 @@
 #pragma once
 #include "vex.h"
 #include "Telemetry/Displaying/ScreenItem.h"
+#include "Telemetry/Displaying/Widgets/Containers/BasicContainer.h"
 #include "Cycle/Phases/LoopPhase.h"
 
 class DisplayPhase : public LoopPhase {
@@ -9,11 +10,19 @@ public:
 
 	void execute(const unsigned long tick) override;
 
+	BasicContainer* getScreen() {
+		return screen;
+	}
+
+	void addToScreen(ScreenItem* item) {
+		screen->addChild(item);
+	}
+
 	~DisplayPhase() {
 		delete screen;
 	}
 private:
-	ScreenItem* screen;
+	BasicContainer* screen;
 	int interval;
 	vex::brain& brain;
 };
