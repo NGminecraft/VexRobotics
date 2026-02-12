@@ -12,12 +12,6 @@ public:
 		}
 	}
 
-	void addChild(ScreenItem* child) {
-		if (child != nullptr) {
-			children.push_back(child);
-		}
-	}
-
 protected:
 	std::vector<ScreenItem*> children;
 	int offsetX;
