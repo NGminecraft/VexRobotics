@@ -65,13 +65,13 @@ int main() {
 	DisplayPhase displayPhase(10, Brain);
 
 	// Example displayPhase usage: displaying the joystick values
-	ScreenItem* joystickDisplay = new VariableString(
+	ScreenItem* joystickDisplay = makeVariableString(
 		"Axis 1/2: %d %d | Axis 3/4: %d %d", 
 		10, 10,  // x, y screen coordinates
-		&controllerState.getTelemetry<ControllerAxis::Axis1>()->getData().value,
-		&controllerState.getTelemetry<ControllerAxis::Axis2>()->getData().value,
-		&controllerState.getTelemetry<ControllerAxis::Axis3>()->getData().value,
-		&controllerState.getTelemetry<ControllerAxis::Axis4>()->getData().value
+		&controllerState.getTelemetry<ControllerState::TelemetryTypes::Axis1>()->getData().value,
+		&controllerState.getTelemetry<ControllerState::TelemetryTypes::Axis2>()->getData().value,
+		&controllerState.getTelemetry<ControllerState::TelemetryTypes::Axis3>()->getData().value,
+		&controllerState.getTelemetry<ControllerState::TelemetryTypes::Axis4>()->getData().value
 	);
 
 	// Add to display phase
