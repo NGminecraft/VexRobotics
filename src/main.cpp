@@ -77,6 +77,7 @@ int main() {
 	// Add to display phase
 	displayPhase.addToScreen(joystickDisplay);
 
+
 	// Register the display phase
 	mainLoop.registerPhase(&displayPhase);
 
