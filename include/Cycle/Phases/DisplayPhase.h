@@ -1,29 +1,23 @@
 #pragma once
-#include "vex.h"
+#include "Cycle/Phases/LoopPhase.h"
 #include "Telemetry/Displaying/ScreenItem.h"
 #include "Telemetry/Displaying/Widgets/Containers/BasicContainer.h"
-#include "Cycle/Phases/LoopPhase.h"
+#include "vex.h"
 
 class DisplayPhase : public LoopPhase {
 public:
-	DisplayPhase(int interval, vex::brain& brain);
+  DisplayPhase(int interval, vex::brain &brain);
 
-	void execute(const unsigned long tick) override;
+  void execute(const unsigned long tick) override;
 
-	BasicContainer* getScreen() {
-		return screen;
-	}
+  BasicContainer *getScreen() { return screen; }
 
-	void addToScreen(ScreenItem* item) {
-		screen->addChild(item);
-	}
+  void addToScreen(ScreenItem *item) { screen->addChild(item); }
 
-	~DisplayPhase() {
-		delete screen;
-	}
+  ~DisplayPhase() { delete screen; }
 
 private:
-	BasicContainer* screen;
-	int interval;
-	vex::brain& brain;
+  BasicContainer *screen;
+  int interval;
+  vex::brain &brain;
 };
