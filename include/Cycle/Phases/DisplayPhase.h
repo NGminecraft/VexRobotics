@@ -21,6 +21,7 @@ public:
 	~DisplayPhase() {
 		delete screen;
 	}
+
 private:
 	BasicContainer* screen;
 	int interval;
