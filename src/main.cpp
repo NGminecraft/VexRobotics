@@ -13,6 +13,9 @@
 #include "Objects/DrivetrainState.h"
 #include "Telemetry/Logging/Logger.h"
 #include "Cycle/Phases/TelemetryPhase.h"
+#include "Cycle/Phases/DisplayPhase.h"
+#include "Telemetry/Displaying/Widgets/Items/VaraibleString.h"
+#include "Telemetry/TelemetryObjects/Controller/ControllerTelemetryHeaders.h"
 using namespace vex;
 
 // A global instance of vex::brain used for printing to the V5 brain screen
@@ -57,6 +60,25 @@ int main() {
 
 	// Register the user phase
 	mainLoop.registerPhase(&userPhase);
+
+	/* ---Display Phase Setup-- */
+	DisplayPhase displayPhase(10, Brain);
+
+	// Example displayPhase usage: displaying the joystick values
+	ScreenItem* joystickDisplay = new VariableString(
+		"Axis 1/2: %d %d | Axis 3/4: %d %d", 
+		10, 10,  // x, y screen coordinates
+		&controllerState.getTelemetry<ControllerAxis::Axis1>()->getData().value,
+		&controllerState.getTelemetry<ControllerAxis::Axis2>()->getData().value,
+		&controllerState.getTelemetry<ControllerAxis::Axis3>()->getData().value,
+		&controllerState.getTelemetry<ControllerAxis::Axis4>()->getData().value
+	);
+
+	// Add to display phase
+	displayPhase.addToScreen(joystickDisplay);
+
+	// Register the display phase
+	mainLoop.registerPhase(&displayPhase);
 
 
 	// Start the main loop

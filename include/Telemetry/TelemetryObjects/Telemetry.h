@@ -35,11 +35,11 @@ public:
 	Telemetry(unsigned int interval) : TelemetryBase(interval) {}
 	Telemetry() : TelemetryBase(1) {}
 
-	inline const TelemetryDataPoint<T> getData() const {
-		return data;
+	inline const TelemetryDataPoint<T>& getData() const {
+		return data;  // Returns a reference to the actual data member
 	};
 
-	inline const TelemetryDataPoint<T> getPreviousData() {
+	inline const TelemetryDataPoint<T> getPreviousData() const {
 		return previousData;
 	}
 
