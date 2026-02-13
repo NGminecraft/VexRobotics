@@ -58,3 +58,27 @@ void Logger::log(const char* msg, Logger::LogLevel level) {
 void Logger::log(const char* msg) {
 	log(msg, defaultLevel);
 }
+
+void Logger::prependElement(LogElement* element) {
+	if (element != nullptr) {
+		prependedElements.push_back(element);
+	}
+}
+
+void Logger::appendElement(LogElement* element) {
+	if (element != nullptr) {
+		appendedElements.push_back(element);
+	}
+}
+
+void Logger::addSimpleHandle(LogHandle* callback) {
+	if (callback != nullptr) {
+		simpleHandles.push_back(callback);
+	}
+}
+
+void Logger::addHandle(LogHandle* handle) {
+	if (handle != nullptr) {
+		handles.push_back(handle);
+	}
+}
