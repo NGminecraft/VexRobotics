@@ -1,7 +1,7 @@
 #pragma once
 #include <sstream>
 #include <vector>
-#include <functional>
+#include "Telemetry/Logging/LogMethods/LogHandling/LogHandle.h"
 #include "Telemetry/Logging/LogMethods/Formatting/LogFormat.h"
 
 class Logger {
@@ -23,6 +23,12 @@ public:
 
 	void prependElement(LogElement* element);
 	void appendElement(LogElement* element);
+	
+	// Registering a simple handle, or a handle that doesn't contain any formatting elements
+	void addSimpleHandle(LogHandle* callback);
+
+	// Registering a handle, something that does stuff with the log message
+	void addHandle(LogHandle* handle);
 
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger&) = delete;
