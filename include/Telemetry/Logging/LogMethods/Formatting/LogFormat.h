@@ -13,3 +13,23 @@ public:
 		addElement(ss);
 	}
 };
+
+enum class LogElementSeperators {
+	NONE,
+	SPACE,
+	BRACKET,
+	BRACE
+};
+
+std::string seperateElement(LogElementSeperators sep, const char* text) {
+	switch (sep) {
+	case LogElementSeperators::SPACE:
+		return " " + std::string(text) + " ";
+	case LogElementSeperators::BRACKET:
+		return "[" + std::string(text) + "] ";
+	case LogElementSeperators::BRACE:
+		return "{" + std::string(text) + "} ";
+	default:
+		return std::string(text);
+	}
+}
