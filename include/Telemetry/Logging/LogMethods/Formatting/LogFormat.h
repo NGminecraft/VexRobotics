@@ -21,7 +21,7 @@ enum class LogElementSeperators {
 	BRACE
 };
 
-std::string seperateElement(LogElementSeperators sep, const char* text) {
+std::string seperateElement(LogElementSeperators sep, std::string text) {
 	switch (sep) {
 	case LogElementSeperators::SPACE:
 		return " " + std::string(text) + " ";
