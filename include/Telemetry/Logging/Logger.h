@@ -1,30 +1,31 @@
 #pragma once
-#include "vex.h"
-
+#include <sstream>
 
 class Logger {
 public:
-	static Logger& getInstance(vex::brain& brain, const char* Name);
+	enum class LogLevel {
+		DEBUG,
+		INFO,
+		WARN,
+		ERROR,
+		CRITICAL
+	};
+
+	static Logger& getInstance(const char* Name);
+	static Logger& getInstance(const char* Name, LogLevel defaultLevel);
 	static Logger& getInstance();
 
 	void log(const char* message);
+	void log(const char* message, LogLevel level);
 
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger&) = delete;
-	void clear();
-
 private:
-	Logger(vex::brain& brain, const char* Name);
-	
-	vex::brain& brainRef;
+	Logger(const char* Name);
+	Logger(const char* Name, LogLevel defaultLevel);
+
+	LogLevel defaultLevel;
+
 	const char* name;
 	static Logger* instance;
-};
-
-enum class LogLevel {
-	DEBUG,
-	INFO,
-	WARN,
-	ERROR,
-	CRITICAL
 };
