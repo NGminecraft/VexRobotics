@@ -4,6 +4,9 @@
 class LogLevelElement : public LogElement {
 	public:
 	LogLevelElement(LogElementSeperators seperators) : seperator(seperators) {};
+
+	void addElement(std::stringstream& ss) override {};
+
 	void addElement(std::stringstream& ss, Logger::LogLevel level) override {
 		std::string levelStr;
 		switch (level) {

@@ -16,6 +16,11 @@
 #include "Cycle/Phases/DisplayPhase.h"
 #include "Telemetry/Displaying/Widgets/Items/VaraibleString.h"
 #include "Telemetry/TelemetryObjects/Controller/ControllerTelemetryHeaders.h"
+
+#include "Telemetry/Logging/LogMethods/Formatting/LogLevelElement.h"
+#include "Telemetry/Logging/LogMethods/Formatting/LogStringElement.h"
+#include "Telemetry/Logging/LogMethods/Formatting/LogTimestamp.h"
+
 using namespace vex;
 
 // A global instance of vex::brain used for printing to the V5 brain screen
@@ -34,8 +39,19 @@ vex::drivetrain Drivetrain(leftMotors, rightMotors);
 DrivetrainState drivetrainState(Drivetrain);
 
 int main() {
-	// Create the logger
-	Logger::getInstance(Brain, "Main").log("Starting main()");
+	/* Create the logger */
+	Logger& logger = Logger::getInstance("Main");
+	
+	// Add some formatting to the logger
+	LogLevelElement logLevelElement(LogElementSeperators::BRACKET);
+	logger.prependElement(&logLevelElement);
+
+	LogTimestamp logTimestamp(LogElementSeperators::BRACKET);
+	logger.prependElement(&logTimestamp);	
+
+	LogStringElement string("-", LogElementSeperators::SPACE);
+	logger.prependElement(&string);
+	
 	
 	// Our event loop
 	MainLoop mainLoop;
