@@ -15,7 +15,7 @@ public:
 		for (size_t i = 0; i < N; i++) {
 			size_t idx = (currentIndex + i) % N;
 			if (buffer[idx]) {
-				brain.Screen.printAt(x + offSetX, y + i + offsetY, buffer[idx]);
+				brain.Screen.printAt(x + offsetX, y + i + offsetY, buffer[idx]);
 			}
 		}
 	}

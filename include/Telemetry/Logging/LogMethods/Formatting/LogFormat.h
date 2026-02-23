@@ -12,7 +12,7 @@ public:
 
 	// By default ignore log level, but some elements may want to change that
 	// Note: Logger::LogLevel is defined in Logger.h
-	virtual void addElement(std::stringstream& ss, intB level) {
+	virtual void addElement(std::stringstream& ss, int level) {
 		addElement(ss);
 	}
 };
@@ -24,15 +24,4 @@ enum class LogElementSeperators {
 	BRACE
 };
 
-std::string seperateElement(LogElementSeperators sep, std::string text) {
-	switch (sep) {
-	case LogElementSeperators::SPACE:
-		return " " + std::string(text) + " ";
-	case LogElementSeperators::BRACKET:
-		return "[" + std::string(text) + "] ";
-	case LogElementSeperators::BRACE:
-		return "{" + std::string(text) + "} ";
-	default:
-		return std::string(text);
-	}
-}
+std::string seperateElement(LogElementSeperators sep, const std::string text);
