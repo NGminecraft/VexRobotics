@@ -7,9 +7,10 @@ class LogLevelElement : public LogElement {
 
 	void addElement(std::stringstream& ss) override {};
 
-	void addElement(std::stringstream& ss, Logger::LogLevel level) override {
+	void addElement(std::stringstream& ss, int level) override {
 		std::string levelStr;
-		switch (level) {
+		Logger::LogLevel logLevel = static_cast<Logger::LogLevel>(level);
+		switch (logLevel) {
 		case Logger::LogLevel::DEBUG:
 			levelStr = "DEBUG";
 			break;

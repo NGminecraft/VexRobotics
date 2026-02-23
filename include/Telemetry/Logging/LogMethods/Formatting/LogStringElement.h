@@ -11,4 +11,4 @@ public:
 private:
 	const char* text;
 	LogElementSeperators seperator;
-}
+};

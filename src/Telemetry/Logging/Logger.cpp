@@ -3,9 +3,9 @@
 
 Logger* Logger::instance = nullptr;
 
-Logger::Logger(const char* Name) : name(Name), defaultLevel(Logger::LogLevel::DEBUG) {}
+Logger::Logger(const char* Name) : defaultLevel(Logger::LogLevel::DEBUG), name(Name) {}
 
-Logger::Logger(const char* Name, LogLevel defaultLevel) : name(Name), defaultLevel(defaultLevel) {}
+Logger::Logger(const char* Name, LogLevel defaultLevel) : defaultLevel(defaultLevel), name(Name) {}
 
 Logger& Logger::getInstance(const char* Name) {
 	// FIX 3: Use static instance instead of local variable
@@ -38,7 +38,7 @@ void Logger::log(const char* msg, Logger::LogLevel level) {
 	
 	// Prepend elements
 	for (auto element : prependedElements) {
-		element->addElement(ss, level);
+		element->addElement(ss, static_cast<int>(level));
 	}
 
 	// Append message
@@ -46,7 +46,7 @@ void Logger::log(const char* msg, Logger::LogLevel level) {
 
 	// Append elements
 	for (auto element : appendedElements) {
-		element->addElement(ss, level);
+		element->addElement(ss, static_cast<int>(level));
 	}
 
 	// Call handles

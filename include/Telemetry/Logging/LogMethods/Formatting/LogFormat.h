@@ -1,6 +1,8 @@
 #pragma once
-#include "Telemetry/Logging/Logger.h"
 #include <sstream>
+
+// Forward declaration to avoid circular includes
+class Logger;
 
 // Base class for log elements, things that add content to a log message
 class LogElement {
@@ -9,7 +11,8 @@ public:
 	virtual void addElement(std::stringstream& ss) = 0;
 
 	// By default ignore log level, but some elements may want to change that
-	virtual void addElement(std::stringstream& ss, Logger::LogLevel level) {
+	// Note: Logger::LogLevel is defined in Logger.h
+	virtual void addElement(std::stringstream& ss, intB level) {
 		addElement(ss);
 	}
 };
