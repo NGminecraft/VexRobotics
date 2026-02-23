@@ -21,6 +21,8 @@
 #include "Telemetry/Logging/LogMethods/Formatting/LogStringElement.h"
 #include "Telemetry/Logging/LogMethods/Formatting/LogTimestamp.h"
 
+#include "Telemetry/Logging/LogMethods/LogHandling/ScrollingStringsHandle.h"
+
 using namespace vex;
 
 // A global instance of vex::brain used for printing to the V5 brain screen
@@ -51,6 +53,10 @@ int main() {
 
 	LogStringElement string("-", LogElementSeperators::SPACE);
 	logger.prependElement(&string);
+
+	// Logger handles
+	ScrollingString<5> logDisplay(0, 15);
+	ScrollingStringsHandle<5> logHandle(logDisplay);
 	
 	
 	// Our event loop
@@ -83,7 +89,7 @@ int main() {
 	// Example displayPhase usage: displaying the joystick values
 	ScreenItem* joystickDisplay = makeVariableString(
 		"Axis 1/2: %d %d | Axis 3/4: %d %d", 
-		10, 10,  // x, y screen coordinates
+		10, 14,  // x, y screen coordinates
 		&controllerState.getTelemetry<ControllerState::TelemetryTypes::Axis1>()->getData().value,
 		&controllerState.getTelemetry<ControllerState::TelemetryTypes::Axis2>()->getData().value,
 		&controllerState.getTelemetry<ControllerState::TelemetryTypes::Axis3>()->getData().value,
@@ -92,6 +98,9 @@ int main() {
 
 	// Add to display phase
 	displayPhase.addToScreen(joystickDisplay);
+
+	// Add the log display to the screen as well
+	displayPhase.addToScreen(&logDisplay);
 
 
 	// Register the display phase
