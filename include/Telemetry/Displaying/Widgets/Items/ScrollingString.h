@@ -20,6 +20,10 @@ public:
 		}
 	}
 
+	const size_t getBufferSize() const {
+		return N;
+	}
+
 protected:
 	const char* buffer[N];
 	size_t currentIndex = 0;
