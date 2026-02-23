@@ -13,6 +13,16 @@
 #include "Objects/DrivetrainState.h"
 #include "Telemetry/Logging/Logger.h"
 #include "Cycle/Phases/TelemetryPhase.h"
+#include "Cycle/Phases/DisplayPhase.h"
+#include "Telemetry/Displaying/Widgets/Items/VaraibleString.h"
+#include "Telemetry/TelemetryObjects/Controller/ControllerTelemetryHeaders.h"
+
+#include "Telemetry/Logging/LogMethods/Formatting/LogLevelElement.h"
+#include "Telemetry/Logging/LogMethods/Formatting/LogStringElement.h"
+#include "Telemetry/Logging/LogMethods/Formatting/LogTimestamp.h"
+
+#include "Telemetry/Logging/LogMethods/LogHandling/ScrollingStringsHandle.h"
+
 using namespace vex;
 
 // A global instance of vex::brain used for printing to the V5 brain screen
@@ -31,8 +41,23 @@ vex::drivetrain Drivetrain(leftMotors, rightMotors);
 DrivetrainState drivetrainState(Drivetrain);
 
 int main() {
-	// Create the logger
-	Logger::getInstance(Brain, "Main").log("Starting main()");
+	/* Create the logger */
+	Logger& logger = Logger::getInstance("Main");
+	
+	// Add some formatting to the logger
+	LogLevelElement logLevelElement(LogElementSeperators::BRACKET);
+	logger.prependElement(&logLevelElement);
+
+	LogTimestamp logTimestamp(LogElementSeperators::BRACKET);
+	logger.prependElement(&logTimestamp);	
+
+	LogStringElement string("-", LogElementSeperators::SPACE);
+	logger.prependElement(&string);
+
+	// Logger handles
+	ScrollingString<5> logDisplay(0, 15);
+	ScrollingStringsHandle<5> logHandle(logDisplay);
+	
 	
 	// Our event loop
 	MainLoop mainLoop;
@@ -57,6 +82,29 @@ int main() {
 
 	// Register the user phase
 	mainLoop.registerPhase(&userPhase);
+
+	/* ---Display Phase Setup-- */
+	DisplayPhase displayPhase(10, Brain);
+
+	// Example displayPhase usage: displaying the joystick values
+	ScreenItem* joystickDisplay = makeVariableString(
+		"Axis 1/2: %d %d | Axis 3/4: %d %d", 
+		10, 14,  // x, y screen coordinates
+		&controllerState.getTelemetry<ControllerState::TelemetryTypes::Axis1>()->getData().value,
+		&controllerState.getTelemetry<ControllerState::TelemetryTypes::Axis2>()->getData().value,
+		&controllerState.getTelemetry<ControllerState::TelemetryTypes::Axis3>()->getData().value,
+		&controllerState.getTelemetry<ControllerState::TelemetryTypes::Axis4>()->getData().value
+	);
+
+	// Add to display phase
+	displayPhase.addToScreen(joystickDisplay);
+
+	// Add the log display to the screen as well
+	displayPhase.addToScreen(&logDisplay);
+
+
+	// Register the display phase
+	mainLoop.registerPhase(&displayPhase);
 
 
 	// Start the main loop
