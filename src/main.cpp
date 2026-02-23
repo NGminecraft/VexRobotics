@@ -21,8 +21,8 @@ vex::brain       Brain;
 vex::controller Controller1;
 ControllerState controllerState(Controller1);
 
-vex::motor DriveLeftMotor(vex::PORT1, false);
-vex::motor DriveRightMotor(vex::PORT2, true);
+vex::motor DriveLeftMotor(vex::PORT10, false);
+vex::motor DriveRightMotor(vex::PORT1, true);
 
 vex::motor_group leftMotors(DriveLeftMotor);
 vex::motor_group rightMotors(DriveRightMotor);
@@ -51,7 +51,7 @@ int main() {
 
 	/* ---User Phase Setup--- */
 	// Set the movement logic for the user
-	ArcadeMovement<ControllerAxis::Axis3, ControllerAxis::Axis4> movementLogic;
+	ArcadeMovement<ControllerAxis::Axis2, ControllerAxis::Axis4> movementLogic;
 	// Create the user phase with the movement logic
 	UserPhase<decltype(movementLogic)> userPhase(controllerState, drivetrainState);
 
