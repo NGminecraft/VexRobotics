@@ -3,40 +3,82 @@
 
 Logger* Logger::instance = nullptr;
 
-Logger::Logger(vex::brain& brain, const char* Name) : brainRef(brain), name(Name) {
+Logger::Logger(const char* Name) : defaultLevel(Logger::LogLevel::DEBUG), name(Name) {}
 
-}
+Logger::Logger(const char* Name, LogLevel defaultLevel) : defaultLevel(defaultLevel), name(Name) {}
 
-Logger& Logger::getInstance(vex::brain& brain, const char* Name) {
+Logger& Logger::getInstance(const char* Name) {
 	// FIX 3: Use static instance instead of local variable
 	if (instance == nullptr) {
-		static Logger logInstance(brain, Name);
+		static Logger logInstance(Name);
 		instance = &logInstance;
 	}
 	return *instance;
 }
 
 Logger& Logger::getInstance() {
-	// FIX 4: Add null check to prevent dereferencing null pointer
 	if (instance == nullptr) {
 		// This is a critical error - getInstance(brain, name) must be called first
 		// For embedded systems, we can't throw exceptions, so we need to handle this gracefully
 		// You should call the two-parameter version first during initialization
-		vex::brain dummyBrain;
-		static Logger defaultInstance(dummyBrain, "DefaultLogger");
+		static Logger defaultInstance("DefaultLogger");
 		instance = &defaultInstance;
 	}
 	return *instance;
 }
 
-void Logger::log(const char* msg) {
-	// FIX 5: Add null check before logging
-	if (msg != nullptr) {
-		brainRef.Screen.print(msg);
-		brainRef.Screen.newLine();
+void Logger::log(const char* msg, Logger::LogLevel level) {
+	// Call all the simple handles first
+	for (auto handle : simpleHandles) {
+		handle->log(msg);
+	}
+
+	// Stringstream to build the log message
+	std::stringstream ss;
+	
+	// Prepend elements
+	for (auto element : prependedElements) {
+		element->addElement(ss, static_cast<int>(level));
+	}
+
+	// Append message
+	ss << msg;
+
+	// Append elements
+	for (auto element : appendedElements) {
+		element->addElement(ss, static_cast<int>(level));
+	}
+
+	// Call handles
+	for (auto handle : handles) {
+		handle->log(ss.str().c_str());
 	}
 }
 
-void Logger::clear() {
-	brainRef.Screen.clearScreen();
+void Logger::log(const char* msg) {
+	log(msg, defaultLevel);
+}
+
+void Logger::prependElement(LogElement* element) {
+	if (element != nullptr) {
+		prependedElements.push_back(element);
+	}
+}
+
+void Logger::appendElement(LogElement* element) {
+	if (element != nullptr) {
+		appendedElements.push_back(element);
+	}
+}
+
+void Logger::addSimpleHandle(LogHandle* callback) {
+	if (callback != nullptr) {
+		simpleHandles.push_back(callback);
+	}
+}
+
+void Logger::addHandle(LogHandle* handle) {
+	if (handle != nullptr) {
+		handles.push_back(handle);
+	}
 }
