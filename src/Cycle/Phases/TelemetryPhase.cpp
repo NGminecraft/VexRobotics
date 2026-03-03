@@ -29,7 +29,7 @@ void TelemetryPhase::registerTelemetryUpdate(TelemetryBase* object) {
 }
 
 void TelemetryPhase::execute(const unsigned long tick) {
-	while (minHeap.top()->getNextUpdate() <= tick) {
+	while (!minHeap.empty() && minHeap.top()->getNextUpdate() <= tick) {
 		TelemetryBase* current = minHeap.top();
 		minHeap.pop();
 		current->update(tick);
