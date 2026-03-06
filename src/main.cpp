@@ -22,6 +22,7 @@
 #include "Telemetry/Logging/LogMethods/Formatting/LogTimestamp.h"
 
 #include "Telemetry/Logging/LogMethods/LogHandling/ScrollingStringsHandle.h"
+#include "Telemetry/Logging/LogMethods/LogHandling/SerialLogger.h"
 
 using namespace vex;
 
@@ -41,6 +42,8 @@ vex::drivetrain Drivetrain(leftMotors, rightMotors);
 DrivetrainState drivetrainState(Drivetrain);
 
 int main() {
+	Brain.Screen.print("Initializing...");
+	printf("Initializing... \n");
 	/* Create the logger */
 	Logger& logger = Logger::getInstance("Main");
 	
@@ -57,14 +60,17 @@ int main() {
 	// Logger handles
 	ScrollingString<5> logDisplay(0, 15);
 	ScrollingStringsHandle<5> logHandle(logDisplay);
-	
-	
+
+	logger.addHandle(&logHandle);
+	logger.addHandle(new SerialLoggerHandle());
+
+	logger.log(std::string("Logger initialized"));
 	// Our event loop
 	MainLoop mainLoop;
 
 	/* ---Controller Setup--- */
 	// Enable only the telemetry axis classes to be updated every tick
-	controllerState.setTelemetryIntervals({ 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+	controllerState.setInterval({ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 });
 
 	// Register the controller state with it's dedicated telemetry phase
 	TelemetryPhase controllerTelemetryPhase;

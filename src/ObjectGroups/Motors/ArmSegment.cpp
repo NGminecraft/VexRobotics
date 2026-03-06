@@ -7,4 +7,4 @@
 ArmSegment::ArmSegment(MotorState& m, RotationState& r, Rotation axis, double len)
 	: motor(m, r), rotationAxis(axis), length(len) {}
 
-ArmSegment::ArmSegment(const PreciseMotor& motor, Rotation axis, double len) : motor(motor), rotationAxis(axis), length(len) {}
+ArmSegment::ArmSegment(const StrictPreciseMotor& motor, Rotation axis, double len) : motor(motor), rotationAxis(axis), length(len) {}

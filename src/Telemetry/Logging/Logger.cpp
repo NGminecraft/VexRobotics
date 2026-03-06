@@ -3,11 +3,11 @@
 
 Logger* Logger::instance = nullptr;
 
-Logger::Logger(const char* Name) : defaultLevel(Logger::LogLevel::DEBUG), name(Name) {}
+Logger::Logger(const std::string& Name) : defaultLevel(Logger::LogLevel::DEBUG), name(Name) {}
 
-Logger::Logger(const char* Name, LogLevel defaultLevel) : defaultLevel(defaultLevel), name(Name) {}
+Logger::Logger(const std::string& Name, LogLevel defaultLevel) : defaultLevel(defaultLevel), name(Name) {}
 
-Logger& Logger::getInstance(const char* Name) {
+Logger& Logger::getInstance(const std::string& Name) {
 	// FIX 3: Use static instance instead of local variable
 	if (instance == nullptr) {
 		static Logger logInstance(Name);
@@ -27,7 +27,7 @@ Logger& Logger::getInstance() {
 	return *instance;
 }
 
-void Logger::log(const char* msg, Logger::LogLevel level) {
+void Logger::log(const std::string& msg, Logger::LogLevel level) {
 	// Call all the simple handles first
 	for (auto handle : simpleHandles) {
 		handle->log(msg);
@@ -51,11 +51,11 @@ void Logger::log(const char* msg, Logger::LogLevel level) {
 
 	// Call handles
 	for (auto handle : handles) {
-		handle->log(ss.str().c_str());
+		handle->log(ss.str());
 	}
 }
 
-void Logger::log(const char* msg) {
+void Logger::log(const std::string& msg) {
 	log(msg, defaultLevel);
 }
 

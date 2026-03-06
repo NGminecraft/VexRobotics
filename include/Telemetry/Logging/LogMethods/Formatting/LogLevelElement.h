@@ -17,8 +17,8 @@ class LogLevelElement : public LogElement {
 		case Logger::LogLevel::INFO:
 			levelStr = "INFO";
 			break;
-		case Logger::LogLevel::WARN:
-			levelStr = "WARN";
+		case Logger::LogLevel::WARNING:
+			levelStr = "WARNING";
 			break;
 		case Logger::LogLevel::ERROR:
 			levelStr = "ERROR";

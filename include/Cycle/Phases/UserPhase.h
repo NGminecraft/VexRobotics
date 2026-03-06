@@ -5,6 +5,7 @@
 #include "Telemetry/Logging/Logger.h"
 #include <functional>
 #include <sstream>
+#include <string>
 
 template <typename MovementStruct>
 class UserPhase : public LoopPhase {
@@ -40,28 +41,48 @@ struct AxisPositionGetter;
 template<>
 struct AxisPositionGetter<ControllerAxis::Axis1> {
 	static int get(ControllerState& c) {
-		return c.getTelemetry<ControllerState::TelemetryTypes::Axis1>()->getData().value;
+		auto* telemetry = c.getTelemetry<ControllerState::TelemetryTypes::Axis1>();
+		if (telemetry == nullptr) {
+			Logger::getInstance("Main").log("Axis1 telemetry not initialized", Logger::LogLevel::WARNING);
+			return 0;
+		}
+		return telemetry->getData().value;
 	}
 };
 
 template<>
 struct AxisPositionGetter<ControllerAxis::Axis2> {
 	static int get(ControllerState& c) {
-		return c.getTelemetry<ControllerState::TelemetryTypes::Axis2>()->getData().value;
+		auto* telemetry = c.getTelemetry<ControllerState::TelemetryTypes::Axis2>();
+		if (telemetry == nullptr) {
+			Logger::getInstance("Main").log("Axis2 telemetry not initialized", Logger::LogLevel::WARNING);
+			return 0;
+		}
+		return telemetry->getData().value;
 	}
 };
 
 template<>
 struct AxisPositionGetter<ControllerAxis::Axis3> {
 	static int get(ControllerState& c) {
-		return c.getTelemetry<ControllerState::TelemetryTypes::Axis3>()->getData().value;
+		auto* telemetry = c.getTelemetry<ControllerState::TelemetryTypes::Axis3>();
+		if (telemetry == nullptr) {
+			Logger::getInstance("Main").log("Axis3 telemetry not initialized", Logger::LogLevel::WARNING);
+			return 0;
+		}
+		return telemetry->getData().value;
 	}
 };
 
 template<>
 struct AxisPositionGetter<ControllerAxis::Axis4> {
 	static int get(ControllerState& c) {
-		return c.getTelemetry<ControllerState::TelemetryTypes::Axis4>()->getData().value;
+		auto* telemetry = c.getTelemetry<ControllerState::TelemetryTypes::Axis4>();
+		if (telemetry == nullptr) {
+			Logger::getInstance("Main").log("Axis4 telemetry not initialized", Logger::LogLevel::WARNING);
+			return 0;
+		}
+		return telemetry->getData().value;
 	}
 };
 
@@ -100,6 +121,9 @@ struct ArcadeMovement {
 		// Scales the values
 		x = scaleValue<Scale>(x);
 		y = scaleValue<Scale>(y);
+		std::stringstream logMsg;
+		logMsg << "Controller input - X: " << x << " Y: " << y;
+		Logger::getInstance("Main").log(logMsg.str(), Logger::LogLevel::DEBUG);
 
 		// Runs the arcade drive
 		return dt.getObject().arcade(x, y);

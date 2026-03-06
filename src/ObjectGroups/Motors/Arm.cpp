@@ -1,5 +1,6 @@
 #include "ObjectGroups/Motors/Arm.h"
 #include "DataTypes/Matrix.h"
+#include "Algorithms/InverseKinematics.h"
 
 Arm::Arm(std::vector<ArmSegment> arm) : segments(arm) {
 }
