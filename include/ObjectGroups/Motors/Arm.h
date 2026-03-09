@@ -11,6 +11,7 @@
 
 template <size_t Joints>
 class Arm {
+public:
 	Arm(Rotation baseOrientation) : baseOrientation(baseOrientation) {};
 
 	void addJoint(size_t jointIdx, MotorState& motor, double length, RotationState& rotation) {

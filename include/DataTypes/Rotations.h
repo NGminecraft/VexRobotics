@@ -31,6 +31,7 @@ public:
     bool hasDefinedAxis() const { 
         return axisVector.magnitude() > 0.0; 
     }
+public:
 
     // FACTORIES
     static Rotation XAxis(double rotation) {

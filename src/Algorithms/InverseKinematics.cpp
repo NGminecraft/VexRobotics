@@ -6,7 +6,7 @@
 
 // Performs inverse kinematics on an array of joint segments
 template<size_t Joints>
-Vector<double, Joints> InverseKinematics(std::array<PreciseSegment*, Joints>& segments, Matrix<double, 3, 3>& orientation, Vector3D<double>& targetVelocity)
+Vector<double, Joints> InverseKinematics(std::array<PreciseSegment*, Joints>& segments, Rotation& orientation, Vector3D<double>& targetVelocity)
 {
 	
 	std::array<Matrix<double, 3, 3>, Joints> rotationMatrices;

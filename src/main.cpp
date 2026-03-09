@@ -24,6 +24,13 @@
 #include "Telemetry/Logging/LogMethods/LogHandling/ScrollingStringsHandle.h"
 #include "Telemetry/Logging/LogMethods/LogHandling/SerialLogger.h"
 
+#include <cmath>
+
+// Define M_PI if not already defined
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 using namespace vex;
 
 // A global instance of vex::brain used for printing to the V5 brain screen
@@ -33,7 +40,18 @@ vex::controller Controller1;
 ControllerState controllerState(Controller1);
 
 vex::motor DriveLeftMotor(vex::PORT10, false);
-vex::motor DriveRightMotor(vex::PORT1, true);
+vex::motor DriveRightMotor(vex::PORT1, true);	
+
+//ARM MOTORS
+vex::motor ArmMotor1(vex::PORT11, false);
+vex::motor ArmMotor2(vex::PORT12, false);
+vex::motor ArmMotor3(vex::PORT13, false);
+
+MotorState armMotorState1(ArmMotor1);
+MotorState armMotorState2(ArmMotor2);
+MotorState armMotorState3(ArmMotor3);
+
+Arm<3> robotArm(Rotation::ZAxis(M_PI/2));
 
 vex::motor_group leftMotors(DriveLeftMotor);
 vex::motor_group rightMotors(DriveRightMotor);
@@ -65,6 +83,12 @@ int main() {
 	logger.addHandle(new SerialLoggerHandle());
 
 	logger.log(std::string("Logger initialized"));
+	logger.log("Initializing arm");
+
+
+
+	robotArm.addJoint(0, armMotorState1, 10.0, Rotation::XAxis(M_PI / 2));
+
 	// Our event loop
 	MainLoop mainLoop;
 

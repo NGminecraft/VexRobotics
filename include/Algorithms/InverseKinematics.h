@@ -5,4 +5,4 @@
 #include <cstddef>
 
 template <size_t Joints>
-Vector<double, Joints> InverseKinematics(std::array<PreciseSegment*, Joints>& segments, Matrix<double, 3, 3>& baseOrientation);
+Vector<double, Joints> InverseKinematics(std::array<PreciseSegment*, Joints>& segments, Matrix<double, 3, 3>& baseOrientation, Vector3D<double> targetVelocity);
