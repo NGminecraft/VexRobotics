@@ -35,17 +35,39 @@ private:
 };
 
 enum ControllerScaling {
-	Linear
+	Linear,
+	Linear100,
+	Logarithmic
 };
 
 // Template specialization for scaling (C++11 compatible)
 template<ControllerScaling Scale>
-struct ValueScaler;
+struct ValueScaler {
+	static double scale(double x) {
+		Logger::getInstance("Main").log("Undefined scaling method", Logger::LogLevel::ERROR);
+		return x;
+	}
+};
 
 template<>
 struct ValueScaler<ControllerScaling::Linear> {
 	static double scale(double x) {
 		return x;
+	}
+};
+
+template<>
+struct ValueScaler<ControllerScaling::Linear100> {
+	static double scale(double x) {
+		return x * 100.0;
+	}
+};
+
+template<>
+struct ValueScaler<ControllerScaling::Logarithmic> {
+	static double scale(double x) {
+		double sign = (x >= 0) ? 1 : -1;
+		return sign * std::max(0.0, std::log(std::abs(x)) + 1); // Logarithmic scaling to range [-1, 1]
 	}
 };
 
