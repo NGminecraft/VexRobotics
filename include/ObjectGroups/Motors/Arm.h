@@ -31,7 +31,17 @@ public:
 	}
 	
 	void moveEndEffector(const Vector3D<double>& targetVelocity) {
+		Logger& logger = Logger::getInstance("Main");
+		std::stringstream logMsg;
+		logMsg << "Moving arm with target velocity: [" << targetVelocity[0] << ", " << targetVelocity[1] << ", " << targetVelocity[2] << "]";
+		logger.log(logMsg.str(), Logger::LogLevel::DEBUG);
+		
 		Vector<double, Joints> targetVelocities = InverseKinematics<Joints>(segments, baseOrientation, targetVelocity);
+		
+		logMsg.str("");
+		logMsg << "Calculated joint velocities: [" << targetVelocities[0] << ", " << targetVelocities[1] << ", " << targetVelocities[2] << "]";
+		logger.log(logMsg.str(), Logger::LogLevel::DEBUG);
+
 		for (size_t i = 0; i < Joints; i++) {
 			segments[i]->getMotorState().getMotor().setVelocity(targetVelocities[i] * (180 / M_PI), vex::velocityUnits::dps);
 		}

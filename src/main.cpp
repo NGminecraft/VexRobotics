@@ -116,6 +116,7 @@ int main() {
 	controllerTelemetryPhase.registerTelemetryUpdate(&controllerState);
 
 	// Register the controllers telemetry phase
+	logger.log("Registering controller telemetry", Logger::LogLevel::INFO);
 	mainLoop.registerPhase(&controllerTelemetryPhase);
 
 
@@ -127,6 +128,7 @@ int main() {
 	UserPhase<decltype(movementLogic), decltype(armMovementLogic), 3> userPhase(controllerState, drivetrainState, robotArm);
 
 	// Register the user phase
+	logger.log("Registering user control phase", Logger::LogLevel::INFO);
 	mainLoop.registerPhase(&userPhase);
 
 	/* ---Display Phase Setup-- */
@@ -148,7 +150,7 @@ int main() {
 	// Add the log display to the screen as well
 	displayPhase.addToScreen(&logDisplay);
 
-
+	logger.log("Registering display phase", Logger::LogLevel::INFO);
 	// Register the display phase
 	mainLoop.registerPhase(&displayPhase);
 

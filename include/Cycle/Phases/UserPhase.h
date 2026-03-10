@@ -23,7 +23,7 @@ public:
 
 	inline void execute(const unsigned long tick) {
 		MovementStruct::execute(controller, drivetrain);
-
+		ArmStruct::execute(controller, arm);
 		
 	}
 
@@ -82,6 +82,10 @@ struct ArmMovement {
 
 		z = scaleValue<Scale>(z);
 		y = scaleValue<Scale>(y);
+
+		std::stringstream logMsg;
+		logMsg << "Arm control input - Up/Down: " << z << " Left/Right: " << y;
+		Logger::getInstance("Main").log(logMsg.str(), Logger::LogLevel::DEBUG);
 
 		arm.moveEndEffector(Vector3D<double>(0, y, z));
 	}
