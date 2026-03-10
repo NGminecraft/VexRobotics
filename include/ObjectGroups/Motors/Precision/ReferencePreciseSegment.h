@@ -3,7 +3,7 @@
 
 class ReferencePreciseSegment : public PreciseSegment {
 public:
-	ReferencePreciseSegment(MotorState& motor, double length, bool clockwiseReference) : PreciseSegment(motor, length), clockwiseReference(clockwiseReference) {}
+	ReferencePreciseSegment(MotorState& motor, double length, Rotation axis, bool clockwiseReference) : PreciseSegment(motor, length, axis), clockwiseReference(clockwiseReference) {}
 	double getAngle() override {
 		return motor.
 			getTelemetry<MotorState::TelemetryTypes::Current>()

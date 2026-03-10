@@ -14,20 +14,20 @@ class Arm {
 public:
 	Arm(Rotation baseOrientation) : baseOrientation(baseOrientation) {};
 
-	void addJoint(size_t jointIdx, MotorState& motor, double length, RotationState& rotation) {
+	void addJoint(size_t jointIdx, MotorState& motor, double length, Rotation axis, RotationState& rotation) {
 		if (jointIdx >= Joints) {
 			Logger::getInstance("Main").log("Attempted to add a joint at an index that exceeds the number of joints in the arm", Logger::LogLevel::ERROR);
 			return;
 		}
-		segments[jointIdx] = new ReferencePreciseSegment(motor, length, rotation);
+		segments[jointIdx] = new SensorPreciseSegment(motor, length, axis, rotation);
 	}
 
-	void addJoint(size_t jointIdx, MotorState& motor, double length, bool clockwiseReference) {
+	void addJoint(size_t jointIdx, MotorState& motor, double length, Rotation axis, bool clockwiseReference) {
 		if (jointIdx >= Joints) {
 			Logger::getInstance("Main").log("Attempted to add a joint at an index that exceeds the number of joints in the arm", Logger::LogLevel::ERROR);
 			return;
 		}
-		segments[jointIdx] = new ReferencePreciseSegment(motor, length, clockwiseReference);
+		segments[jointIdx] = new ReferencePreciseSegment(motor, length, axis, clockwiseReference);
 	}
 	
 	void moveEndEffector(const Vector3D<double>& targetVelocity) {

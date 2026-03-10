@@ -1,11 +1,12 @@
 #pragma once
 #include "DataTypes/Rotations.h"
 #include "Objects/MotorState.h"
-
+#include "DataTypes/Vectors.h"
+#include "DataTypes/Matrix.h"
 
 class PreciseSegment {
 public:
-	PreciseSegment(MotorState& motor, double length) : motor(motor), length(length) {};
+	PreciseSegment(MotorState& motor, double length, Rotation axis) : motor(motor), length(length) {};
 
 	virtual double getAngle() = 0;
 

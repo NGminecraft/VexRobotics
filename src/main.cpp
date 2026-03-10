@@ -6,16 +6,14 @@
 /*    Description:  V5 project                                                */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-#include "vex.h"
 #include "Cycle/MainLoop.h"
+#include "Cycle/Phases/DisplayPhase.h"
+#include "Cycle/Phases/TelemetryPhase.h"
 #include "Cycle/Phases/UserPhase.h"
 #include "Objects/ControllerState.h"
 #include "Objects/DrivetrainState.h"
-#include "Telemetry/Logging/Logger.h"
-#include "Cycle/Phases/TelemetryPhase.h"
-#include "Cycle/Phases/DisplayPhase.h"
 #include "Telemetry/Displaying/Widgets/Items/VaraibleString.h"
-#include "Telemetry/TelemetryObjects/Controller/ControllerTelemetryHeaders.h"
+#include "Telemetry/Logging/Logger.h"
 
 #include "Telemetry/Logging/LogMethods/Formatting/LogLevelElement.h"
 #include "Telemetry/Logging/LogMethods/Formatting/LogStringElement.h"
@@ -25,6 +23,20 @@
 #include "Telemetry/Logging/LogMethods/LogHandling/SerialLogger.h"
 
 #include <cmath>
+#include <cstdio>
+#include <DataTypes/Rotations.h>
+#include <ObjectGroups/Motors/Arm.h>
+#include <Objects/MotorState.h>
+#include <string>
+#include <Telemetry/Displaying/ScreenItem.h>
+#include <Telemetry/Displaying/Widgets/Items/ScrollingString.h>
+#include <Telemetry/Logging/LogMethods/Formatting/LogFormat.h>
+#include <vex_brain.h>
+#include <vex_controller.h>
+#include <vex_drivetrain.h>
+#include <vex_global.h>
+#include <vex_motor.h>
+#include <vex_motorgroup.h>
 
 // Define M_PI if not already defined
 #ifndef M_PI
@@ -87,7 +99,10 @@ int main() {
 
 
 
-	robotArm.addJoint(0, armMotorState1, 10.0, Rotation::XAxis(M_PI / 2));
+	robotArm.addJoint(0, armMotorState1, 10.0, Rotation::XAxis(M_PI / 2), true);
+	robotArm.addJoint(1, armMotorState2, 10.0, Rotation::XAxis(M_PI / 2), true);
+	robotArm.addJoint(2, armMotorState3, 10.0, Rotation::XAxis(M_PI / 2), true);
+
 
 	// Our event loop
 	MainLoop mainLoop;
@@ -106,9 +121,10 @@ int main() {
 
 	/* ---User Phase Setup--- */
 	// Set the movement logic for the user
-	ArcadeMovement<ControllerAxis::Axis3, ControllerAxis::Axis1> movementLogic;
+	ArcadeMovement<ControllerState::TelemetryTypes::Axis3, ControllerState::TelemetryTypes::Axis4> movementLogic;
+	ArmMovement<ControllerState::TelemetryTypes::Axis1, ControllerState::TelemetryTypes::Axis2> armMovementLogic;
 	// Create the user phase with the movement logic
-	UserPhase<decltype(movementLogic)> userPhase(controllerState, drivetrainState);
+	UserPhase<decltype(movementLogic), decltype(armMovementLogic), 3> userPhase(controllerState, drivetrainState, robotArm);
 
 	// Register the user phase
 	mainLoop.registerPhase(&userPhase);

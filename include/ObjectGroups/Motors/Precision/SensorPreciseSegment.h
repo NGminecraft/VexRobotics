@@ -3,7 +3,7 @@
 
 class SensorPreciseSegment : public PreciseSegment {
 public:
-	SensorPreciseSegment(MotorState& motor, double length, RotationState& rotation) : PreciseSegment(motor, length), rotation(rotation) {}
+	SensorPreciseSegment(MotorState& motor, double length, Rotation axis, RotationState& rotation) : PreciseSegment(motor, length, axis), rotation(rotation) {}
 
 	double getAngle() override {
 		return rotation.getAngleRadians();

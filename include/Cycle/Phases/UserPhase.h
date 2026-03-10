@@ -34,31 +34,6 @@ private:
 
 };
 
-enum class ControllerAxis {
-	Axis1,
-	Axis2,
-	Axis3,
-	Axis4
-};
-
-
-template <ControllerAxis axis>
-static ControllerState::TelemetryTypes axisToTelemetry() {
-	switch (axis) {
-		case ControllerAxis::Axis1:
-			return ControllerState::TelemetryTypes::Axis1;
-		case ControllerAxis::Axis2:
-			return ControllerState::TelemetryTypes::Axis2;
-		case ControllerAxis::Axis3:
-			return ControllerState::TelemetryTypes::Axis3;
-		case ControllerAxis::Axis4:
-			return ControllerState::TelemetryTypes::Axis4;
-		default:
-			Logger::getInstance("Main").log("Invalid controller axis", Logger::LogLevel::ERROR);
-			return ControllerState::TelemetryTypes::Axis1; // Default case to prevent compiler warning
-	}
-}
-
 enum ControllerScaling {
 	Linear
 };
@@ -79,12 +54,12 @@ static double scaleValue(double x) {
 	return ValueScaler<Scale>::scale(x);
 }
 
-template <ControllerAxis ForwardAxis, ControllerAxis SideAxis, ControllerScaling Scale = ControllerScaling::Linear>
+template <ControllerState::TelemetryTypes ForwardAxis, ControllerState::TelemetryTypes SideAxis, ControllerScaling Scale = ControllerScaling::Linear>
 struct ArcadeMovement {
 	static void execute(ControllerState& c, DrivetrainState& dt) {
 		// Gets the axis positions from the controller
-		int x = c.getTelemetry<axisToTelemetry<ForwardAxis>>()->getData().value;
-		int y = c.getTelemetry<axisToTelemetry<SideAxis>()>>()->getData().value;
+		int x = c.getTelemetry<ForwardAxis>()->getData().value;
+		int y = c.getTelemetry<SideAxis>()->getData().value;
 
 		// Scales the values
 		x = scaleValue<Scale>(x);
@@ -108,6 +83,6 @@ struct ArmMovement {
 		z = scaleValue<Scale>(z);
 		y = scaleValue<Scale>(y);
 
-		arm.moveEndEffector(Vector3D<double>(0, y, z))
+		arm.moveEndEffector(Vector3D<double>(0, y, z));
 	}
 };
