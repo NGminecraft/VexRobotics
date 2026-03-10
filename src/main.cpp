@@ -106,7 +106,7 @@ int main() {
 
 	/* ---User Phase Setup--- */
 	// Set the movement logic for the user
-	ArcadeMovement<ControllerAxis::Axis2, ControllerAxis::Axis4> movementLogic;
+	ArcadeMovement<ControllerAxis::Axis3, ControllerAxis::Axis1> movementLogic;
 	// Create the user phase with the movement logic
 	UserPhase<decltype(movementLogic)> userPhase(controllerState, drivetrainState);
 
