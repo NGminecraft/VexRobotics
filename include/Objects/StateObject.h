@@ -1,6 +1,8 @@
 #pragma once
 #include "Objects/StateObjectMacros.h"
 #include "Telemetry/TelemetryObjects/Telemetry.h"
+#include "Telemetry/Logging/Logger.h"
+#include <string>
 
 class StateObjectBase {
 public:
@@ -13,12 +15,16 @@ public:
 template <typename T, size_t COUNT>
 class StateObject : public StateObjectBase {
 public:
-	StateObject(T& obj) : object(obj) {}
+	StateObject(T& obj) : telemetryObjects{}, object(obj) {}
 
 	void update(const unsigned long tick) {
+		auto& logger = Logger::getInstance("Main");
 		for (size_t i = 0; i < COUNT; i++) {
 			if (telemetryObjects[i] != nullptr) {
 				telemetryObjects[i]->update(tick);
+				char buffer[256];
+				sprintf(buffer, "Telemetry Update: %s", telemetryObjects[i]->format().c_str());
+				logger.log(buffer, Logger::LogLevel::DEBUG);
 			}
 		}
 	};

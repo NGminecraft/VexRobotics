@@ -3,6 +3,7 @@
 #include <initializer_list>
 #include <array>
 #include <cstddef>
+#include <cmath>
 
 // Helper struct for element access (C++11 compatible)
 template<bool Owner>
@@ -114,9 +115,9 @@ public:
 		return vector;
 	}
 
-	// Cross Prodcut (3D only)
+	// Cross Product (3D only)
 	template<size_t Dummy = N, typename = typename std::enable_if<(Dummy == 3)>::type>
-	VectorBase<T, 3, true> cross(VectorBase<T, 3, true> vec) {
+	VectorBase<T, 3, true> cross(const VectorBase<T, 3, true>& vec) const {
 		VectorBase<T, 3, true> ret;
 		ret[0] = operator[](1) * vec[2] - operator[](2) * vec[1];
 		ret[1] = operator[](2) * vec[0] - operator[](0) * vec[2];
@@ -125,12 +126,23 @@ public:
 	}
 
 	template<size_t Dummy = N, typename = typename std::enable_if<(Dummy == 3)>::type, typename = void>
-	VectorBase<T, 3, true> cross(VectorBase<T, 3, false> vec) {
+	VectorBase<T, 3, true> cross(const VectorBase<T, 3, false>& vec) const {
 		VectorBase<T, 3, true> ret;
-		ret[0] = operator[](2) * vec[3] - operator[](3) * vec[2];
-		ret[1] = operator[](3) * vec[1] - operator[](1) * vec[3];
-		ret[2] = operator[](1) * vec[2] - operator[](2) * vec[1];
+		ret[0] = operator[](1) * vec[2] - operator[](2) * vec[1];
+		ret[1] = operator[](2) * vec[0] - operator[](0) * vec[2];
+		ret[2] = operator[](0) * vec[1] - operator[](1) * vec[0];
 		return ret;
+	}
+
+	// crossProduct - alias for cross (3D only)
+	template<size_t Dummy = N, typename = typename std::enable_if<(Dummy == 3)>::type>
+	VectorBase<T, 3, true> crossProduct(const VectorBase<T, 3, true>& vec) const {
+		return cross(vec);
+	}
+
+	template<size_t Dummy = N, typename = typename std::enable_if<(Dummy == 3)>::type, typename = void>
+	VectorBase<T, 3, true> crossProduct(const VectorBase<T, 3, false>& vec) const {
+		return cross(vec);
 	}
 
 	template <typename Type, size_t Len, bool O,
@@ -143,12 +155,40 @@ public:
 		return ret;
 	}
 
+	VectorBase<T, N, true> normalize() const {
+		T mag = magnitude();
+		VectorBase<T, N, true> ret;
+		for (size_t i = 0; i < N; i++) {
+			ret[i] = operator[](i) / mag;
+		}
+
+		return ret;
+	}
+
 	const T sum() const {
 		T sum{ 0 };
 		for (size_t i = 0; i < N; i++) {
 			sum += operator[](i);
 		}
 		return sum;
+	}
+
+	T magnitude() {
+		T magSquared{ 0 };
+		for (size_t i = 0; i < N; i++) {
+			magSquared += operator[](i) * operator[](i);
+		}
+		return std::sqrt(magSquared);
+
+	}
+
+	const T magnitude() const {
+		T magSquared{ 0 };
+		for (size_t i = 0; i < N; i++) {
+			magSquared += operator[](i) * operator[](i);
+		}
+
+		return std::sqrt(magSquared);
 	}
 
 

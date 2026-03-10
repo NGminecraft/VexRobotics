@@ -17,5 +17,13 @@ public:
 	MotorState(vex::motor& m);
 
 	// Generate everything: enum, type traits, methods, and switch
+
+	inline vex::motor& getMotor() {
+		return motor;
+	}
+
 	TELEMETRY_GENERATE_ALL(MOTOR_TELEMETRY_LIST, 2)
+
+private:
+	vex::motor& motor;
 };

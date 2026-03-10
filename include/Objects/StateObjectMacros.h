@@ -1,4 +1,5 @@
 #pragma once
+#include <initializer_list>
 
 #define TELEMETRY_ENUM(...) \
     enum class TelemetryTypes { __VA_ARGS__ };
@@ -23,10 +24,16 @@
         setTelemetryInterval(idx, interval); \
     } \
     \
-    void setInterval(unsigned int(&intervals)[Count]) { \
-        for (size_t i = 0; i < Count; i++) { \
-            if (telemetryObjects[i] != nullptr) { \
-                telemetryObjects[i]->setUpdateInterval(intervals[i]); \
+    void setInterval(std::initializer_list<unsigned int> intervals) { \
+        if (intervals.size() != Count) { \
+            return; \
+        } \
+        auto it = intervals.begin(); \
+        for (size_t i = 0; i < Count; i++, ++it) { \
+            if (telemetryObjects[i] == nullptr && *it != 0) { \
+                addTelemetryObject(static_cast<TelemetryTypes>(i), *it); \
+            } else if (telemetryObjects[i] != nullptr) {\
+                telemetryObjects[i]->setUpdateInterval(*it); \
             } \
         } \
     } \
@@ -116,6 +123,20 @@
         for (size_t i = 0; i < Count; i++) { \
             if (telemetryObjects[i] != nullptr) { \
                 telemetryObjects[i]->setUpdateInterval(intervals[i]); \
+            } \
+        } \
+    } \
+    \
+    void setInterval(std::initializer_list<unsigned int> intervals) { \
+        if (intervals.size() != Count) { \
+            return; \
+        } \
+        auto it = intervals.begin(); \
+        for (size_t i = 0; i < Count; i++, ++it) { \
+            if (telemetryObjects[i] == nullptr && *it != 0) { \
+                addTelemetryObject(static_cast<TelemetryTypes>(i), *it); \
+            } else if (telemetryObjects[i] != nullptr) {\
+                telemetryObjects[i]->setUpdateInterval(*it); \
             } \
         } \
     } \
