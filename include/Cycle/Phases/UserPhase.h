@@ -6,13 +6,14 @@
 #include "ObjectGroups/Motors/Arm.h"
 #include "Algorithms/InverseKinematics.h"
 #include <functional>
+#include <cmath>
 #include <sstream>
 #include <string>
 
-template <typename MovementStruct, typename ArmStruct, size_t ArmJoints>
+template <typename MovementStruct, typename ArmStruct>
 class UserPhase : public LoopPhase {
 public:
-	UserPhase(ControllerState& c, DrivetrainState& dt, Arm<ArmJoints>& arm) : LoopPhase(),
+	UserPhase(ControllerState& c, DrivetrainState& dt, typename ArmStruct::arm_type& arm) : LoopPhase(),
 		controller(c),
 		drivetrain(dt),
 		arm(arm)
@@ -24,13 +25,12 @@ public:
 	inline void execute(const unsigned long tick) {
 		MovementStruct::execute(controller, drivetrain);
 		ArmStruct::execute(controller, arm);
-		
 	}
 
 private:
 	ControllerState& controller;
 	DrivetrainState& drivetrain;
-	Arm<ArmJoints>& arm;
+	typename ArmStruct::arm_type& arm;
 
 };
 
@@ -95,12 +95,13 @@ struct ArcadeMovement {
 	}
 };
 
-template <ControllerState::TelemetryTypes UpDown, ControllerState::TelemetryTypes LeftRight, ControllerScaling Scale = ControllerScaling::Linear>
+template <ControllerState::TelemetryTypes UpDown, ControllerState::TelemetryTypes LeftRight, size_t Joints, ControllerScaling Scale = ControllerScaling::Linear>
 struct ArmMovement {
-	template <size_t joints>
-	static void execute(ControllerState& c, Arm<joints>& arm) {
-		int z = c.getTelemetry<UpDown>()->getData().value;
-		int y = c.getTelemetry<LeftRight>()->getData().value;
+	using arm_type = Arm<Joints>;
+
+	static void execute(ControllerState& c, Arm<Joints>& arm) {
+		double z = c.getTelemetry<UpDown>()->getData().value;
+		double y = c.getTelemetry<LeftRight>()->getData().value;
 
 		z = scaleValue<Scale>(z);
 		y = scaleValue<Scale>(y);

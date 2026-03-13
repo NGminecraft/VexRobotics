@@ -5,10 +5,17 @@ class ReferencePreciseSegment : public PreciseSegment {
 public:
 	ReferencePreciseSegment(MotorState& motor, double length, Rotation axis, bool clockwiseReference) : PreciseSegment(motor, length, axis), clockwiseReference(clockwiseReference) {}
 	double getAngle() override {
-		return motor.
-			getTelemetry<MotorState::TelemetryTypes::Current>()
-			->getData()
-			.value;
+		const double degreesToRadians = 3.14159265358979323846 / 180.0;
+		auto* telemetry = motor.getTelemetry<MotorState::TelemetryTypes::Angle>();
+		double degrees = (telemetry != nullptr)
+			? telemetry->getData().value
+			: motor.getMotor().position(vex::rotationUnits::deg);
+		double radians = degrees * degreesToRadians;
+		return clockwiseReference ? radians : -radians;
+	}
+
+	void calibrate() override {
+		motor.getMotor().spin(vex::forward, 20, vex::velocityUnits::pct);
 	}
 
 private:

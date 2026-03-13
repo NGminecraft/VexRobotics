@@ -135,6 +135,7 @@ private:
 	template<size_t N>
 	Vector<T, N> forwardSubstitution(const Matrix<T, N, N>& L, const Vector<T, N>& b) {
 		Vector<T, N> y;
+		const T epsilon = static_cast<T>(1e-9);
 
 		for (size_t i = 0; i < N; i++) {
 			T sum = T(0);
@@ -143,7 +144,12 @@ private:
 				sum += L(i, j) * y[j];
 			}
 
-			y[i] = (b[i] - sum) / L(i, i);
+			T denom = L(i, i);
+			if (!std::isfinite(static_cast<double>(denom)) || std::abs(static_cast<double>(denom)) < static_cast<double>(epsilon)) {
+				denom = (denom < T(0)) ? -epsilon : epsilon;
+			}
+
+			y[i] = (b[i] - sum) / denom;
 		}
 
 		return y;
@@ -153,6 +159,7 @@ private:
 	template<size_t N>
 	Vector<T, N> backwardSubstitution(const Matrix<T, N, N>& L, const Vector<T, N>& b) {
 		Vector<T, N> x;
+		const T epsilon = static_cast<T>(1e-9);
 
 		for (int i = N - 1; i >= 0; i--) {
 			T sum = T(0);
@@ -161,7 +168,12 @@ private:
 				sum += L(j, i) * x[j];
 			}
 
-			x[i] = (b[i] - sum) / L(i, i);
+			T denom = L(i, i);
+			if (!std::isfinite(static_cast<double>(denom)) || std::abs(static_cast<double>(denom)) < static_cast<double>(epsilon)) {
+				denom = (denom < T(0)) ? -epsilon : epsilon;
+			}
+
+			x[i] = (b[i] - sum) / denom;
 		}
 		return x;
 	}
@@ -169,6 +181,7 @@ private:
 	// Cholesky decomposition helper: computes L where M = L*L^T
 	template<size_t N>
 	void choleskyDecomposition(const Matrix<T, N, N>& M, Matrix<T, N, N>& L) {
+		const T epsilon = static_cast<T>(1e-9);
 		for (size_t i = 0; i < N; i++) {
 			for (size_t j = 0; j <= i; j++) {
 				T sum = T(0);
@@ -178,13 +191,20 @@ private:
 						sum += L(j, k) * L(j, k);
 					}
 					T diag = M(j, j) - sum;
+					if (!std::isfinite(static_cast<double>(diag)) || diag < epsilon) {
+						diag = epsilon;
+					}
 					L(j, j) = std::sqrt(diag);
 				}
 				else {
 					for (size_t k = 0; k < j; k++) {
 						sum += L(i, k) * L(j, k);
 					}
-					L(i, j) = (M(i, j) - sum) / L(j, j);
+					T denom = L(j, j);
+					if (!std::isfinite(static_cast<double>(denom)) || std::abs(static_cast<double>(denom)) < static_cast<double>(epsilon)) {
+						denom = epsilon;
+					}
+					L(i, j) = (M(i, j) - sum) / denom;
 				}
 			}
 		}
@@ -214,6 +234,10 @@ private:
 	// Left pseudo-inverse: A^+ = (A^T*A)^-1 * A^T (for tall matrices: ROWS >= COLS)
 	Matrix<T, COLS, ROWS> leftPseudoInverse() {
 		Matrix<T, COLS, COLS> M = transpose() * (*this);
+		const T damping = static_cast<T>(1e-6);
+		for (size_t i = 0; i < COLS; i++) {
+			M(i, i) += damping;
+		}
 		Matrix<T, COLS, COLS> M_inv = solveInverse<COLS>(M);
 		return M_inv * transpose();
 	}
@@ -221,6 +245,10 @@ private:
 	// Right pseudo-inverse: A^+ = A^T * (A*A^T)^-1 (for wide matrices: ROWS < COLS)
 	Matrix<T, COLS, ROWS> rightPseudoInverse() {
 		Matrix<T, ROWS, ROWS> M = operator*(transpose());
+		const T damping = static_cast<T>(1e-6);
+		for (size_t i = 0; i < ROWS; i++) {
+			M(i, i) += damping;
+		}
 		Matrix<T, ROWS, ROWS> M_inv = solveInverse<ROWS>(M);
 		return transpose() * M_inv;
 	}

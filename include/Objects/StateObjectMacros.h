@@ -126,6 +126,17 @@
             } \
         } \
     } \
+    void setInterval(unsigned int interval) { \
+        if (interval == 0) { \
+            return; \
+        } \
+        for (size_t i = 0; i < Count; i++) { \
+            if (telemetryObjects[i] == nullptr) { \
+                addTelemetryObject(static_cast<TelemetryTypes>(i), interval); \
+            } else if (telemetryObjects[i] != nullptr) {\
+                telemetryObjects[i]->setUpdateInterval(interval); \
+            } \
+        }} \
     \
     void setInterval(std::initializer_list<unsigned int> intervals) { \
         if (intervals.size() != Count) { \

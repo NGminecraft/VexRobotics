@@ -1,3 +1,4 @@
+#pragma once
 #include "ObjectGroups/Motors/Precision/PreciseSegment.h"
 #include "Objects/RotationState.h"
 

@@ -42,6 +42,14 @@ public:
 			}
 		}
 	}
+
+	void setTelemetryIntervals(const unsigned int interval) {
+		for (size_t i = 0; i < COUNT; i++) {
+			if (telemetryObjects[i] != nullptr) {
+				telemetryObjects[i]->setUpdateInterval(interval);
+			}
+		}
+	}
 protected:
 	TelemetryBase* telemetryObjects[COUNT];
 
